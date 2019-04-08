@@ -31,7 +31,7 @@ location|location|-|string|-|false
 email|email|-|string|-|false
 avatar|avatar|-|string|-|false
 description|description|-|string|-|false
-user_type|user type|-|string|-|false  
+user_type|user type|-|string|1 (influencer) or 2 (marketer)|false  
 username|username|-|string|-|false
 avatar|avatar user|-|string|-|false
 category|category of user|-|string|-|false
