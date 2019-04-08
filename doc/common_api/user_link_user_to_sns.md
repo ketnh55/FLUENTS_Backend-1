@@ -1,4 +1,4 @@
-# User Register message api   
+# Link to another sns api   
 
 | attribute | value |
 |-----------|-------|

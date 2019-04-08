@@ -1,4 +1,4 @@
-# User Register message api   
+# User Register api   
 
 | attribute | value |
 |-----------|-------|

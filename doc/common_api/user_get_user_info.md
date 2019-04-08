@@ -1,4 +1,4 @@
-# User login message api   
+# Get user info api   
 
 | attribute | value |
 |-----------|-------|
