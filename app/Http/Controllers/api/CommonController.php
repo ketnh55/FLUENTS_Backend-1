@@ -28,6 +28,6 @@ class CommonController extends  Controller
     {
         JWTAuth::toUser($request->token);
         $category = Category::all();
-        return response()->json(compact('category'));
+        return response()->json($category);
     }
 }
