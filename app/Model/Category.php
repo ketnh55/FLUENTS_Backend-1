@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $table = 'categories';
-    protected $fillable = ['id', 'tag_name','description'];
+    protected $fillable = ['id', 'category_name','description'];
     protected $hidden = [
         'created_at', 'updated_at',
     ];
