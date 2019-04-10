@@ -36,6 +36,7 @@ class SnsController extends Controller
             return response()->json($validated->errors());
         }
         $ret = $this->socialAccountServices->linkToSns($user, $request);
+
         return $ret;
     }
 }

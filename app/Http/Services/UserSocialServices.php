@@ -118,7 +118,7 @@ class UserSocialServices
         ]);
         $acc->user()->associate($user);
         $acc->save();
-        return response()->json(['Link to sns'=>'Update success']);
+        return response()->json(['link_to_sns'=>'success', 'user'=>$user]);
 
     }
 }
