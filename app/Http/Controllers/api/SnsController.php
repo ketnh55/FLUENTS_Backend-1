@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Services\UserSocialServices;
 use App\Http\Requests\UserRegisterRequest;
+use Validator;
 
 class SnsController extends Controller
 {
@@ -28,6 +29,10 @@ class SnsController extends Controller
         $this->socialAccountServices = $socialAccountServices;
     }
 
+    /**
+     * @param UserRegisterRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function link_to_sns(UserRegisterRequest $request)
     {
         $user = JWTAuth::toUser($request->token);
@@ -38,5 +43,20 @@ class SnsController extends Controller
         $ret = $this->socialAccountServices->linkToSns($user, $request);
 
         return $ret;
+    }
+
+    public function delete_sns_user(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'social_type' => 'required|numeric|min:1|max:4',
+            'sns_account_id' => 'required|digits_between:1,30',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+        $user = JWTAuth::toUser($request->token);
+        $ret = $this->socialAccountServices->deleteSNSAcc($user, $request);
+        return $ret;
+
     }
 }

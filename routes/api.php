@@ -22,4 +22,5 @@ Route::prefix('v1')->group(function(){
     Route::post('/link_user_to_sns_api', 'api\SnsController@link_to_sns')->middleware('jwt.auth');
     Route::get('/get_category_api', 'api\CommonController@get_category_info')->middleware('jwt.auth');
     Route::get('/logout_api', 'api\LoginAPIController@logout_out')->middleware('jwt.auth');
+    Route::post('/delete_sns_acc_api', 'api\SnsController@delete_sns_user')->middleware('jwt.auth');
 });

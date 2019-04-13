@@ -9,6 +9,7 @@
 namespace App\Http\Services;
 use App\Model\UserSocial;
 use App\User;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -112,5 +113,27 @@ class UserSocialServices
         $user = User::with('user_socials')->findOrFail($user->id);
         return response()->json(['link_to_sns'=>'success', 'user'=>$user]);
 
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function deleteSNSAcc(User $user, Request $request)
+    {
+        $user = User::find($user->id);
+        //check if user deactivate
+        if($user->is_active != 1)
+        {
+            return response()->json(['error' => 'User is deactivated']);
+        }
+
+        //Check if social user belong user
+        $count_sns_acc = $user->user_socials()->where(['platform_id' => $request->get('sns_account_id'), 'social_type' => $request->get('social_type')])->count();
+        if($count_sns_acc > 0)
+        {
+            $user->user_socials()->first()->delete();
+            return response()->json(['delete' => 'success']);
+        }
+        return response()->json(['error' => 'User do not found']);
     }
 }
