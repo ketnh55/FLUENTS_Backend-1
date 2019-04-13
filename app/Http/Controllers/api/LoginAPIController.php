@@ -80,4 +80,15 @@ class LoginAPIController extends Controller
         $ret = $this->socialAccountServices->updateUserInfo($user, $request);
         return $ret;
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function logout_out()
+    {
+        JWTAuth::invalidate(JWTAuth::getToken());
+        return response()->json(['logout' => 'success']);
+    }
+
 }

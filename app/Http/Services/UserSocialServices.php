@@ -90,15 +90,6 @@ class UserSocialServices
             return response()->json(['error' => 'User is deactivated']);
         }
 
-        //check if user linked to the same sns type before
-        foreach($user->user_socials as $user_social)
-        {
-            if($user_social->social_type == $request->get('social_type'))
-            {
-                return response()->json(['error'=>'Duplicate user sns']);
-            }
-        }
-
         //check if sns account was linked to another account
         $user_socials = UserSocial::where(['platform_id'=>$request->get('sns_account_id'), 'social_type'=>$request->get('social_type')])->count();
         if($user_socials > 0)

@@ -24,7 +24,6 @@
 
 name  | description| format | type | range | required
 --- | ---| ---| ---|---|---
-- |- |- |- |- |- 
 
 
 ## 5.Example API Call
