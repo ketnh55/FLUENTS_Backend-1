@@ -83,7 +83,7 @@ avatar|avatar of sns|-|string|-|false
     
     ```
     {
-        "Link to sns": "Update success"
+        "remove": "success"
     }
     ```
     
@@ -91,7 +91,8 @@ avatar|avatar of sns|-|string|-|false
     
     ```
     {
-        'error' => 'User is deactivated'
+        'error' => 'User cannot found'
+        //'error' => 'User is deactivated'
         //'error'=>'Duplicate user sns'
         //'error'=>'user was existed'
     }

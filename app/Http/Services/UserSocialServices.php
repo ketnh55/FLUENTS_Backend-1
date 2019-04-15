@@ -132,8 +132,8 @@ class UserSocialServices
         if($count_sns_acc > 0)
         {
             $user->user_socials()->first()->delete();
-            return response()->json(['delete' => 'success']);
+            return response()->json(['remove' => 'success']);
         }
-        return response()->json(['error' => 'User do not found']);
+        return response()->json(['error' => 'User cannot found']);
     }
 }
