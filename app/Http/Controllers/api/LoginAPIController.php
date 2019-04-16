@@ -71,7 +71,7 @@ class LoginAPIController extends Controller
             'username' => 'sometimes|required|string',
             'email' => 'sometimes|required|string|email|max:255',
             'avatar' => 'sometimes|required|string',
-            'category' => 'sometimes|required|string'
+            'categories' => 'sometimes|required|array'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());

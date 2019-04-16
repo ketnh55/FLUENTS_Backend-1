@@ -20,7 +20,7 @@ class CommonController extends  Controller
     public function get_user_info(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
-        $user = User::with('user_socials')->findOrFail($user->id);
+        $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
         return response()->json(compact('user'));
     }
 

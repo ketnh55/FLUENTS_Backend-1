@@ -63,7 +63,7 @@ avatar|avatar of sns|-|string|-|false
     
 - Step 2 : Check if user active or not
     + If not, return error to client 
-- Step 3 : Check if sns accoutn was linked to another user account
+- Step 3 : Check if sns account was linked to another user account
    + Yes: Return error to client              
 - Step 4 : Create new new sns accoutn and link to user account
 

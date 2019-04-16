@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Services;
+use App\Model\Category;
 use App\Model\UserSocial;
 use App\User;
 use http\Env\Response;
@@ -76,7 +77,7 @@ class UserSocialServices
         $user->username = $request->get('username')==null?$user->username:$request->get('username');
         $user->email = $request->get('email')==null?$user->email:$request->get('email');
         $user->avatar = $request->get('avatar')==null?$user->avatar:$request->get('avatar');
-        $user->category = $request->get('category')==null?$user->category:$request->get('category');
+        $user->categories()->sync($request->get('categories'));
         $user->save();
         return response()->json(['update_user_info' => 'Success']);
     }
