@@ -10,7 +10,7 @@
 
 ## 1. Overview 
 
-- A API allow front end get category from DB
+- A API allow front end logout from system.
 
 ## 2. Endpoint
 
@@ -52,7 +52,7 @@ name  | description| format | type | range | required
             + Jwt token is not valid
             + Jwt user not found
 
-- Step 2 : return success or error if have
+- Step 2 : invalid jwt token and return success or error if have
 
 ## 8. Output
 
