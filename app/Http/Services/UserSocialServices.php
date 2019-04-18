@@ -111,7 +111,7 @@ class UserSocialServices
         ]);
         $acc->user()->associate($user);
         $acc->save();
-        $user = User::with('user_socials')->findOrFail($user->id);
+        $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
         return response()->json(['link_to_sns'=>'success', 'user'=>$user]);
 
     }
