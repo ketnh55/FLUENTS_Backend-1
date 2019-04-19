@@ -34,7 +34,7 @@ description|description|-|string|-|false
 user_type|user type|-|string|1 (influencer) or 2 (marketer)|false  
 username|username|-|string|-|false
 avatar|avatar user|-|string|-|false
-category|category of user|-|string|-|false
+categories[]|categories of user|-|array|-|false
 
 ## 5.Example API Call
 
@@ -55,7 +55,8 @@ category|category of user|-|string|-|false
         - description: 'nothing is impossible',
         - avatar: 'https://twitter.com/Cuong_dep_trai8962580.png',
         - username: 'thangdeptrai'
-        - category: 'sport, drinking, football'
+        - categories[]: '1'
+        - categories[]: '2'
         - link: 'https://twitter.com/Cuong_dep_trai89625808'
         - category: 'https://twitter.com/Cuong_dep_trai89625808'
         - user_type: '1'        

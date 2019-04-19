@@ -67,26 +67,67 @@ name  | description| format | type | range | required
     
     ```
     {
-    "allow_access": "true"
-    "user": {
-                "id": 24,
-                "username": "1111",
-                "full_name": null,
-                "date_of_birth": null,
-                "gender": null,
-                "country": null,
-                "location": null,
-                "email": "abcdfdsafdsafd@xyz.com456rrrr4fhtrthye556",
-                "avatar": null,
-                "description": null,
-                "created_at": "2019-03-20 17:12:57",
-                "updated_at": "2019-03-20 17:12:57",
-                "deleted_at": null,
-                "last_login": null,
-                "ip": null,
-                "is_active": null,
-                "user_type": 1
-            }            
+        "user": {
+            "id": 58,
+            "username": "kết",
+            "full_name": null,
+            "date_of_birth": "1992-12-31 00:00:00",
+            "gender": "Male",
+            "country": null,
+            "location": "Vietnam, Quan Hoa",
+            "email": "abcd@xyz.com",
+            "avatar": "http://www.hyperdia.com/en/",
+            "description": "ugcihcigcicihchc8hv",
+            "last_login": null,
+            "ip": null,
+            "is_active": 1,
+            "user_type": null,
+            "user_socials": [
+                {
+                    "id": 49,
+                    "link": null,
+                    "email": "abcd@xyz.com",
+                    "created_at": "2019-04-17 17:22:40",
+                    "social_type": 2,
+                    "sns_access_token": null,
+                    "user_id": 58,
+                    "extra_data": null,
+                    "platform_id": "24235",
+                    "avatar": "http://www.hyperdia.com/en/",
+                    "username": "kết"
+                },
+                {
+                    "id": 50,
+                    "link": null,
+                    "email": "abcd@xyz.com",
+                    "created_at": "2019-04-19 14:56:38",
+                    "social_type": 2,
+                    "sns_access_token": null,
+                    "user_id": 58,
+                    "extra_data": null,
+                    "platform_id": "24235555",
+                    "avatar": "http://www.hyperdia.com/en/",
+                    "username": "kết"
+                }
+            ],
+            "categories": [
+                {
+                    "id": 1,
+                    "category_name": "sport",
+                    "description": "sportify"
+                },
+                {
+                    "id": 2,
+                    "category_name": "drinking",
+                    "description": "cocacola"
+                },
+                {
+                    "id": 3,
+                    "category_name": "music",
+                    "description": "music"
+                }
+            ]
+        }
     }
     ```
     

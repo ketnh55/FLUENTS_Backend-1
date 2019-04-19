@@ -91,48 +91,69 @@ avatar|avatar of sns|-|string|-|false
     + Success:
     
     ```
-    [
-        {
-            "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly8zNS4yMzYuNjYuOTUvYXBpL3YxL3VzZXJfbG9naW5fYXBpIiwiaWF0IjoxNTUzMTgwNjA3LCJleHAiOjE1NTMxODQyMDcsIm5iZiI6MTU1MzE4MDYwNywianRpIjoiRkhtQXZSTkdBQmRiWE9wMiJ9.gl0nV0ZOJvQgLpzl2KJYoWHzAZRqOO5qFmv2T66FK28"
-        },
-        {
-            "user": {
-                "id": 2,
-                "username": "1111",
-                "full_name": null,
-                "date_of_birth": null,
-                "gender": null,
-                "country": null,
-                "location": null,
-                "email": "abcdfdsafdsafd@xyz.com456rrrr4fhtrthye",
-                "avatar": null,
-                "description": null,
-                "created_at": "2019-03-21 15:03:27",
-                "updated_at": "2019-03-21 15:03:27",
-                "deleted_at": null,
-                "last_login": null,
-                "ip": null,
-                "is_active": null,
-                "user_type": "1",
-                "require_update_info" : "1"
-                "user_socials": [
-                    {
-                        "id": 2,
-                        "link": "https://laravel.com/docs/5.8/eloquent-relationships#one-to-many",
-                        "email": "abcdfdsafdsafd@xyz.com456rrrr4fhtrthye",
-                        "created_at": "2019-03-21 15:03:27",
-                        "updated_at": "2019-03-21 15:03:27",
-                        "deleted_at": null,
-                        "social_type": "3",
-                        "sns_access_token": null,
-                        "user_id": "2",
-                        "extra_data": null,
-                        "flatform_id": "111111111111111"
-                    }
-                ]
-            }
+    {
+        "user": {
+            "id": 58,
+            "username": "kết",
+            "full_name": null,
+            "date_of_birth": "1992-12-31 00:00:00",
+            "gender": "Male",
+            "country": null,
+            "location": "Vietnam, Quan Hoa",
+            "email": "abcd@xyz.com",
+            "avatar": "http://www.hyperdia.com/en/",
+            "description": "ugcihcigcicihchc8hv",
+            "last_login": null,
+            "ip": null,
+            "is_active": 1,
+            "user_type": null,
+            "user_socials": [
+                {
+                    "id": 49,
+                    "link": null,
+                    "email": "abcd@xyz.com",
+                    "created_at": "2019-04-17 17:22:40",
+                    "social_type": 2,
+                    "sns_access_token": null,
+                    "user_id": 58,
+                    "extra_data": null,
+                    "platform_id": "24235",
+                    "avatar": "http://www.hyperdia.com/en/",
+                    "username": "kết"
+                },
+                {
+                    "id": 50,
+                    "link": null,
+                    "email": "abcd@xyz.com",
+                    "created_at": "2019-04-19 14:56:38",
+                    "social_type": 2,
+                    "sns_access_token": null,
+                    "user_id": 58,
+                    "extra_data": null,
+                    "platform_id": "24235555",
+                    "avatar": "http://www.hyperdia.com/en/",
+                    "username": "kết"
+                }
+            ],
+            "categories": [
+                {
+                    "id": 1,
+                    "category_name": "sport",
+                    "description": "sportify"
+                },
+                {
+                    "id": 2,
+                    "category_name": "drinking",
+                    "description": "cocacola"
+                },
+                {
+                    "id": 3,
+                    "category_name": "music",
+                    "description": "music"
+                }
+            ]
         }
-    ]
+    }
     ```
     
     + Failed: 

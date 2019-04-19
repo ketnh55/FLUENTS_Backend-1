@@ -29,7 +29,7 @@ class UserSocialServices
         if($userSocial)
         {
             $user = $userSocial->user;
-            $user = User::with('user_socials')->findOrFail($user->id);
+            $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
 
             return $user;
         }
@@ -53,7 +53,7 @@ class UserSocialServices
         ]);
         $acc->user()->associate($user);
         $acc->save();
-        $user = User::with('user_socials')->findOrFail($user->id);
+        $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
         return $user;
     }
 

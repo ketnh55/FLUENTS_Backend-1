@@ -85,71 +85,64 @@ avatar|avatar of sns|-|string|-|false
     
     ```
     {
-        "link_to_sns": "success",
         "user": {
-            "id": 56,
-            "username": "k54353",
+            "id": 58,
+            "username": "kết",
             "full_name": null,
-            "date_of_birth": null,
-            "gender": null,
+            "date_of_birth": "1992-12-31 00:00:00",
+            "gender": "Male",
             "country": null,
-            "location": null,
+            "location": "Vietnam, Quan Hoa",
             "email": "abcd@xyz.com",
             "avatar": "http://www.hyperdia.com/en/",
-            "description": null,
-            "created_at": "2019-04-10 14:40:44",
-            "updated_at": "2019-04-10 14:40:44",
-            "deleted_at": null,
+            "description": "ugcihcigcicihchc8hv",
             "last_login": null,
             "ip": null,
             "is_active": 1,
             "user_type": null,
-            "category": null,
             "user_socials": [
                 {
-                    "id": 36,
-                    "link": "https://github.com/ketnh55/influencer_api/blob/master/doc/common_api/user_get_user_info.md",
-                    "email": "abcd@xyz.com",
-                    "created_at": "2019-04-10 14:40:44",
-                    "updated_at": "2019-04-10 14:40:44",
-                    "deleted_at": null,
-                    "social_type": 1,
-                    "sns_access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQ4LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL3VzZXJfcmVnaXN0ZXJfYXBpIiwiaWF0IjoxNTU0MjE4ODIxLCJleHAiOjE1NTQ1Nzg4MjEsIm5iZiI6MTU1NDIxODgyMSwianRpIjoiMEpCNFBFMTZ5RGIxZ29iZiJ9.c3xi0Q5vpKDzMVMdBUhVlFD_VHCiFHe-P9nIjhRhqdY",
-                    "user_id": 56,
-                    "extra_data": null,
-                    "platform_id": "242354255553332",
-                    "avatar": "http://www.hyperdia.com/en/",
-                    "username": "k54353"
-                },
-                {
-                    "id": 37,
+                    "id": 49,
                     "link": null,
                     "email": "abcd@xyz.com",
-                    "created_at": "2019-04-10 14:41:26",
-                    "updated_at": "2019-04-10 14:41:26",
-                    "deleted_at": null,
-                    "social_type": 4,
+                    "created_at": "2019-04-17 17:22:40",
+                    "social_type": 2,
                     "sns_access_token": null,
-                    "user_id": 56,
+                    "user_id": 58,
                     "extra_data": null,
-                    "platform_id": "2423554564",
+                    "platform_id": "24235",
                     "avatar": "http://www.hyperdia.com/en/",
                     "username": "kết"
                 },
                 {
-                    "id": 38,
+                    "id": 50,
                     "link": null,
                     "email": "abcd@xyz.com",
-                    "created_at": "2019-04-10 14:42:07",
-                    "updated_at": "2019-04-10 14:42:07",
-                    "deleted_at": null,
-                    "social_type": 3,
+                    "created_at": "2019-04-19 14:56:38",
+                    "social_type": 2,
                     "sns_access_token": null,
-                    "user_id": 56,
+                    "user_id": 58,
                     "extra_data": null,
-                    "platform_id": "242355456433",
+                    "platform_id": "24235555",
                     "avatar": "http://www.hyperdia.com/en/",
                     "username": "kết"
+                }
+            ],
+            "categories": [
+                {
+                    "id": 1,
+                    "category_name": "sport",
+                    "description": "sportify"
+                },
+                {
+                    "id": 2,
+                    "category_name": "drinking",
+                    "description": "cocacola"
+                },
+                {
+                    "id": 3,
+                    "category_name": "music",
+                    "description": "music"
                 }
             ]
         }

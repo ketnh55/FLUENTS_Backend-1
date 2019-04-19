@@ -67,7 +67,7 @@ social_type|1:facebook, 2:twitter, 3:instagram, 4:youtube|-|int|from 1 to 4|true
 
 ## 8. Output
 
-- Json message is sent to client  
+- Remove success or not
 
 ## 9. Example Response 
 
@@ -78,62 +78,16 @@ social_type|1:facebook, 2:twitter, 3:instagram, 4:youtube|-|int|from 1 to 4|true
     + Success:
     
     ```
-    [
-        {
-            "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly8zNS4yMzYuNjYuOTUvYXBpL3YxL3VzZXJfbG9naW5fYXBpIiwiaWF0IjoxNTUzMTgwNjA3LCJleHAiOjE1NTMxODQyMDcsIm5iZiI6MTU1MzE4MDYwNywianRpIjoiRkhtQXZSTkdBQmRiWE9wMiJ9.gl0nV0ZOJvQgLpzl2KJYoWHzAZRqOO5qFmv2T66FK28"
-        },
-        {
-            "user": {
-                "id": 2,
-                "username": "1111",
-                "full_name": null,
-                "date_of_birth": null,
-                "gender": null,
-                "country": null,
-                "location": null,
-                "email": "abcdfdsafdsafd@xyz.com456rrrr4fhtrthye",
-                "avatar": null,
-                "description": null,
-                "created_at": "2019-03-21 15:03:27",
-                "updated_at": "2019-03-21 15:03:27",
-                "deleted_at": null,
-                "last_login": null,
-                "ip": null,
-                "is_active": null,
-                "user_type": "1",
-                "require_update_info" : "1"
-                "user_socials": [
-                    {
-                        "id": 2,
-                        "link": "https://laravel.com/docs/5.8/eloquent-relationships#one-to-many",
-                        "email": "abcdfdsafdsafd@xyz.com456rrrr4fhtrthye",
-                        "created_at": "2019-03-21 15:03:27",
-                        "updated_at": "2019-03-21 15:03:27",
-                        "deleted_at": null,
-                        "social_type": "3",
-                        "sns_access_token": null,
-                        "user_id": "2",
-                        "extra_data": null,
-                        "flatform_id": "111111111111111"
-                    }
-                ]
-            }
-        }
-    ]
+    {
+        "remove" => "success"
+    }
     ```
     
     + Failed: 
     
     ```
     {
-        {
-            "message": "The given data was invalid.",
-            "errors": {
-                "email": [
-                    "The email has already been taken."
-                ]
-            }
-        }
+        "error": "token_expired"
     }
     ```
 
