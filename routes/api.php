@@ -23,4 +23,5 @@ Route::prefix('v1')->group(function(){
     Route::get('/get_category_api', 'api\CommonController@get_category_info')->middleware('jwt.auth');
     Route::get('/logout_api', 'api\LoginAPIController@logout_out')->middleware('jwt.auth');
     Route::post('/remove_sns_acc_api', 'api\SnsController@delete_sns_user')->middleware('jwt.auth');
+    Route::get('/get_sns_info', 'api\CommonController@get_sns_info')->middleware('jwt.auth');
 });
