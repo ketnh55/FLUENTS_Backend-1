@@ -99,7 +99,23 @@ name  | description| format | type | range | required
                     "username": "kết"
                 }
             ],
-            "categories": []
+            "categories": [
+                            {
+                                "id": 1,
+                                "category_name": "sport",
+                                "description": "sportify"
+                            },
+                            {
+                                "id": 2,
+                                "category_name": "drinking",
+                                "description": "cocacola"
+                            },
+                            {
+                                "id": 3,
+                                "category_name": "music",
+                                "description": "music"
+                            }
+                        ]
         }
     }
     ```
