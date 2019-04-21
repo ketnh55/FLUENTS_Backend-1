@@ -38,7 +38,7 @@ social_type|1:facebook, 2:twitter, 3:instagram, 4:youtube|-|int|from 1 to 4|true
 - Body: 
     - POST param
         - social_type: '2',
-        - sns_access_token: '3xyzljfdsajldsjaf2354%fdajasdf.fdaljkfda',
+        - sns_user_id: '3xyzljfdsajldsjaf2354%fdajasdf.fdaljkfda',
         
 - Url : *http://domain_name/api/v1/remove_sns_acc_api/*
 

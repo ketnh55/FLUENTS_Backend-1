@@ -1,4 +1,4 @@
-# User Register message api   
+# Link user to sns account 
 
 | attribute | value |
 |-----------|-------|
@@ -59,14 +59,13 @@ avatar|avatar of sns|-|string|-|false
 - Step 1 : Validate input parameter
     + If not valid, return error message corresponding to each of parameter
     + If valid, go to step 2          
-    ↓
-    
+    ↓   
 - Step 2 : Check if user active or not
-    + If not, return error to client 
-- Step 3: Check if user account was linked to the same sns type before
-    + If yes, return error to client 
-- Step 4 : Check if sns accoutn was linked to another user account
-   + Yes: Return error to client              
+    + If not, return error to client
+    ↓ 
+- Step 3 : Check if sns accoutn was linked to another user account
+   + Yes: Return error to client
+   ↓              
 - Step 4 : Create new new sns accoutn and link to user account
 
 - Step 5 : Save to DB and return success

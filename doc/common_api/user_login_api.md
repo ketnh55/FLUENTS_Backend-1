@@ -67,66 +67,39 @@ name  | description| format | type | range | required
     
     ```
     {
+        "allow_access": "true",
         "user": {
-            "id": 58,
+            "id": 61,
             "username": "kết",
             "full_name": null,
-            "date_of_birth": "1992-12-31 00:00:00",
-            "gender": "Male",
+            "date_of_birth": null,
+            "gender": null,
             "country": null,
-            "location": "Vietnam, Quan Hoa",
+            "location": null,
             "email": "abcd@xyz.com",
-            "avatar": "http://www.hyperdia.com/en/",
-            "description": "ugcihcigcicihchc8hv",
+            "avatar": null,
+            "description": null,
             "last_login": null,
             "ip": null,
             "is_active": 1,
             "user_type": null,
+            "require_update_info": "true",
             "user_socials": [
                 {
-                    "id": 49,
+                    "id": 53,
                     "link": null,
                     "email": "abcd@xyz.com",
-                    "created_at": "2019-04-17 17:22:40",
+                    "created_at": "2019-04-20 16:18:47",
                     "social_type": 2,
                     "sns_access_token": null,
-                    "user_id": 58,
+                    "user_id": 61,
                     "extra_data": null,
-                    "platform_id": "24235",
-                    "avatar": "http://www.hyperdia.com/en/",
-                    "username": "kết"
-                },
-                {
-                    "id": 50,
-                    "link": null,
-                    "email": "abcd@xyz.com",
-                    "created_at": "2019-04-19 14:56:38",
-                    "social_type": 2,
-                    "sns_access_token": null,
-                    "user_id": 58,
-                    "extra_data": null,
-                    "platform_id": "24235555",
-                    "avatar": "http://www.hyperdia.com/en/",
+                    "platform_id": "2131685551",
+                    "avatar": null,
                     "username": "kết"
                 }
             ],
-            "categories": [
-                {
-                    "id": 1,
-                    "category_name": "sport",
-                    "description": "sportify"
-                },
-                {
-                    "id": 2,
-                    "category_name": "drinking",
-                    "description": "cocacola"
-                },
-                {
-                    "id": 3,
-                    "category_name": "music",
-                    "description": "music"
-                }
-            ]
+            "categories": []
         }
     }
     ```
