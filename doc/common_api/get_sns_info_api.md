@@ -24,8 +24,6 @@
 
 name  | description| format | type | range | required
 --- | ---| ---| ---|---|---
-sns_account_id|sns_account_id|-|string|-|true
-social_type|1:facebook, 2:twitter, 3:instagram, 4:youtube|-|int|from 1 to 4|true
 
 
 
@@ -34,8 +32,7 @@ social_type|1:facebook, 2:twitter, 3:instagram, 4:youtube|-|int|from 1 to 4|true
 - Method : GET
 
 - Header: 
-    - X-Requested-With: XMLHttpRequest
-    
+    - X-Requested-With: XMLHttpRequest    
     - Authorization : '"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL3VzZXJfbG9naW5fYXBpIiwiaWF0IjoxNTUzNDE5OTM2LCJleHAiOjE1NTM0MjM1MzYsIm5iZiI6MTU1MzQxOTkzNiwianRpIjoib1hDOE41UW12cEtBNUtCZSJ9.GPau62lF2scfzub6cHmlQx40yxjxTlmSKs1W7G9F1ws',        
 - Body: 
     - GET param: N/A     
