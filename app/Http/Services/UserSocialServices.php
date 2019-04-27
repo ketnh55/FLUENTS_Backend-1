@@ -132,7 +132,8 @@ class UserSocialServices
         $count_sns_acc = $user->user_socials()->where(['platform_id' => $request->get('sns_account_id'), 'social_type' => $request->get('social_type')])->count();
         if($count_sns_acc > 0)
         {
-            $user->user_socials()->first()->delete();
+            $user->user_socials()->where(['platform_id' => $request->get('sns_account_id'), 'social_type' => $request->get('social_type')])->delete();
+  
             return response()->json(['remove' => 'success']);
         }
         return response()->json(['error' => 'User cannot found']);
