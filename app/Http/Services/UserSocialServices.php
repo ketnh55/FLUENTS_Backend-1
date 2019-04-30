@@ -133,9 +133,21 @@ class UserSocialServices
         if($count_sns_acc > 0)
         {
             $user->user_socials()->where(['platform_id' => $request->get('sns_account_id'), 'social_type' => $request->get('social_type')])->delete();
-  
             return response()->json(['remove' => 'success']);
         }
         return response()->json(['error' => 'User cannot found']);
+    }
+
+    public function deactive_user(User $user)
+    {
+        $user = User::find($user->id);
+        //check if user deactivate
+        if($user->is_active != 1)
+        {
+            return response()->json(['error' => 'User is deactivated']);
+        }
+        $user->is_active = 0;
+        $user->save();
+        return response()->json(['deactive' => 'success']);
     }
 }

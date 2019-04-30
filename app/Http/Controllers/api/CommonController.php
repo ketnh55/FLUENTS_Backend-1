@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Services\SnsInfoService;
+use App\Http\Services\UserSocialServices;
 use App\Model\Category;
 use App\Model\SNSInfo;
 use JWTFactory;
@@ -20,10 +21,12 @@ use App\User;
 class CommonController extends  Controller
 {
     protected $snsInfoServices;
+    protected $userSocialService;
 
-    public function __construct(SnsInfoService $snsInfoServices)
+    public function __construct(SnsInfoService $snsInfoServices, UserSocialServices $userSocialService)
     {
         $this->snsInfoServices = $snsInfoServices;
+        $this->userSocialService = $userSocialService;
     }
 
     public function get_user_info(Request $request)
@@ -45,5 +48,11 @@ class CommonController extends  Controller
         $user = JWTAuth::parseToken()->authenticate();
         $info = $this->snsInfoServices->get_sns_info($user);
         return $info;
+    }
+
+    public function deactive_acc(){
+        $user = JWTAuth::parseToken()->authenticate();
+        $ret = $this->userSocialService->deactive_user($user);
+        return $ret;
     }
 }
