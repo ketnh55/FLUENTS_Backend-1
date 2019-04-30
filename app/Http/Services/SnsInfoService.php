@@ -16,8 +16,11 @@ class SnsInfoService
 {
     public function get_sns_info(User $user)
     {
-        $info[] = array();
         $user = User::with('user_socials')->find($user->id);
+        if(sizeof($user->user_socials) == 0)
+        {
+            return response()->json(null);
+        }
         //check if user deactivate
         if($user->is_active != 1)
         {
@@ -28,6 +31,7 @@ class SnsInfoService
             $sns_info = SNSInfo::where(['id' => $user_social->platform_id])->first();
             $info[] = response()->json($sns_info)->original;
         }
+
         return response()->json(['info' => $info]);
     }
 }
