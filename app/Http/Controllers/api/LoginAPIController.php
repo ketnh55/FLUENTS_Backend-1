@@ -40,6 +40,10 @@ class LoginAPIController extends Controller
         try
         {
             $user = $this->socialAccountServices->createOrGetSocailUser($request);
+            if($user->is_active != 1)
+            {
+                return response()->json(['error' => 'User is deactivated']);
+            }
 
         }
         catch (\Exception $e)
@@ -55,6 +59,10 @@ class LoginAPIController extends Controller
     {
         $user = JWTAuth::toUser($request->token);
         $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+        if($user->is_active != 1)
+        {
+            return response()->json(['error' => 'User is deactivated']);
+        }
         $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
         return response()->json(["allow_access"=>"true", 'user' => $user]);
     }

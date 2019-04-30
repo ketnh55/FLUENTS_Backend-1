@@ -30,7 +30,6 @@ class UserSocialServices
         {
             $user = $userSocial->user;
             $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
-
             return $user;
         }
 
