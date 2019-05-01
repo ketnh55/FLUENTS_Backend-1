@@ -32,7 +32,12 @@ class CommonController extends  Controller
     public function get_user_info(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
+
         $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+        if($user->is_active != 1)
+        {
+            return response()->json(['error' => 'User is deactivated']);
+        }
         return response()->json(compact('user'));
     }
 

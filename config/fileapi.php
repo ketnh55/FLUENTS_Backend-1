@@ -34,6 +34,6 @@ return [
     'enable_api_upload' => true,
     'api_prefix' => '/api/v1',
 
-    'middlewares' => [], // middlewares that wrap the api upload route
+    'middlewares' => ['jwt.auth'], // middlewares that wrap the api upload route
 
 ];
