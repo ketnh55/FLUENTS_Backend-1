@@ -32,6 +32,7 @@ social_type|1:facebook, 2:twitter, 3:instagram, 4:youtube|-|int|from 1 to 4|true
 sns_access_token|access token of sns|-|string|-|false
 link|link to sns page|-|string|-|false
 avatar|avatar of sns|-|string|-|false
+secret_token|secret token of twitter|-|string|-|false
 
 ## 5.Example API Call
 
@@ -48,6 +49,7 @@ avatar|avatar of sns|-|string|-|false
         - sns_access_token: '3xyzljfdsajldsjaf2354%fdajasdf.fdaljkfda',
         - link: 'https://twitter.com/Cuong_dep_trai89625808'
         - avatar: 'https://twitter.com/Cuong_dep_trai89625808.png'
+        - secret_token: '111111111131313131'
         
 - Url : *http://domain_name/api/v1/user_register_api/*
 
@@ -120,6 +122,7 @@ avatar|avatar of sns|-|string|-|false
                     "platform_id": "24235",
                     "avatar": "http://www.hyperdia.com/en/",
                     "username": "kết"
+                    "secret_token": "null"
                 },
                 {
                     "id": 50,
@@ -133,6 +136,7 @@ avatar|avatar of sns|-|string|-|false
                     "platform_id": "24235555",
                     "avatar": "http://www.hyperdia.com/en/",
                     "username": "kết"
+                    "secret_token": "131313131313131313"
                 }
             ],
             "categories": [
