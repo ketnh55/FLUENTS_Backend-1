@@ -1,4 +1,4 @@
-# Deactive user api
+# Upload image api
 
 | attribute | value |
 |-----------|-------|
