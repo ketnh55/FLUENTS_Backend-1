@@ -3,6 +3,7 @@ API change log
 - 2019-04-30
     - Add api deactive user
     - Fix bug remove_sns_acc_api    
+    - Add param 'secret_token' to api user_register_api
 ------------------------------------------------------------------------------------------------------------
 - 2019-04-24
     - Add api get_sns_info_api (note: use data from Mongo DB so not too much data for testing)
