@@ -49,6 +49,7 @@ class UserSocialServices
             'link' => $request->get('link'),
             'avatar' => $request->get('avatar'),
             'username' => $request->get('username'),
+            'secret_token' => $request->get('secret_token')
         ]);
         $acc->user()->associate($user);
         $acc->save();

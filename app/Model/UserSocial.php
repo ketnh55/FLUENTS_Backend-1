@@ -11,7 +11,7 @@ class UserSocial extends Model
     use SoftDeletes;
     //
     protected $table = 'social_users';
-    protected $fillable = ['user_id', 'social_type','sns_access_token', 'email', 'link', 'platform_id', 'username', 'avatar'];
+    protected $fillable = ['user_id', 'social_type','sns_access_token', 'email', 'link', 'platform_id', 'username', 'avatar', 'secret_token'];
     protected $hidden = [
         'deleted_at', 'updated_at',
     ];
