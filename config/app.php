@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Unisharp\FileApi\FileApiServiceProvider::class,
     ],
 
     /*
