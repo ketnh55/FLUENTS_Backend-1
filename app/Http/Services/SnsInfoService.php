@@ -32,11 +32,10 @@ class SnsInfoService
         }
         foreach($user->user_socials as $user_social)
         {
-//            $sns_info = SNSInfo::where(['platform_id' => $user_social->platform_id, 'social_type' => $user_social->social_type])->first();
-            $sns_info = SNSInfo::where(['platform_id' => $user_social->platform_id])->first();
+            $sns_info = SNSInfo::where(['platform_id' => $user_social->platform_id, 'social_type' => (int)($user_social->social_type)])->first();
+//            $sns_info = SNSInfo::where(['platform_id' => $user_social->platform_id])->first();
             $info[] = response()->json($sns_info)->original;
         }
-
         return response()->json($info);
     }
 }
