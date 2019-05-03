@@ -10,7 +10,7 @@ class SNSInfo extends Eloquent
     protected $connection = 'mongodb';
     protected $collection = 'statistic';
     protected $hidden = ['_id', 'exception'];
-    protected $cast = [
+    protected $casts = [
         'social_type' => 'string'
     ];
 }
