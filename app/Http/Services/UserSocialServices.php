@@ -77,7 +77,11 @@ class UserSocialServices
         $user->username = $request->get('username')==null?$user->username:$request->get('username');
         $user->email = $request->get('email')==null?$user->email:$request->get('email');
         $user->avatar = $request->get('avatar')==null?$user->avatar:$request->get('avatar');
-        $user->categories()->sync($request->get('categories'));
+        if($request->get('categories') !== null)
+        {
+            $user->categories()->sync($request->get('categories'));
+        }
+
         $user->save();
         return response()->json(['update_user_info' => 'Success']);
     }
