@@ -1,5 +1,13 @@
 # mobile_backend api
 API change log
+- 2019-05-03
+    - Fix bug update avatar impact to categories
+    - Make consistency between get user info api and get sns info api 
+        + Change full_name to username
+        + Change platform to social_type
+        + Change id to platform_id
+        + Change profile_picture to avatar
+------------------------------------------------------------------------------------------------------------
 - 2019-04-30
     - Add api deactive user
     - Fix bug remove_sns_acc_api    
