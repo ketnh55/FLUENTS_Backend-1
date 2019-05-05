@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\api;
 
+use GuzzleHttp\Client;
 use JWTFactory;
 use JWTAuth;
 use App\Http\Controllers\Controller;
@@ -32,6 +33,7 @@ class SnsController extends Controller
     /**
      * @param UserRegisterRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function link_to_sns(UserRegisterRequest $request)
     {
@@ -41,6 +43,19 @@ class SnsController extends Controller
             return response()->json($validated->errors());
         }
         $ret = $this->socialAccountServices->linkToSns($user, $request);
+        $body = [
+            'platform_id' => $request->get('sns_account_id'),
+            'sns_access_token' => $request->get('sns_access_token'),
+            'social_type' => (int)$request->get('social_type'),
+            'secret_token' => $request->get('secret_token')
+        ];
+
+        $client = new Client();
+        $response = $client->request('POST', 'https://python-api.fluents.app/api/social-data/add-new-platform', ['json' => $body]);
+        if($response->getStatusCode() !== 200)
+        {
+            return response()->json(['error' =>'cannot crawl data']);
+        }
 
         return $ret;
     }

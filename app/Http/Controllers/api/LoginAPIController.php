@@ -11,6 +11,7 @@ use Response;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRegisterRequest;
+use GuzzleHttp\Client;
 
 class LoginAPIController extends Controller
 {
@@ -52,6 +53,25 @@ class LoginAPIController extends Controller
         }
         $token = JWTAuth::fromUser($user);
         $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
+        $ret = $this->socialAccountServices->linkToSns($user, $request);
+
+        //call crawl data by api
+        $body = [
+            'platform_id' => $request->get('sns_account_id'),
+            'sns_access_token' => $request->get('sns_access_token'),
+            'social_type' => (int)$request->get('social_type'),
+            'secret_token' => $request->get('secret_token')
+        ];
+
+        $client = new Client();
+        $response = $client->request('POST', 'https://python-api.fluents.app/api/social-data/add-new-platform', ['json' => $body]);
+        //call api fail
+        if($response->getStatusCode() !== 200)
+        {
+            return response()->json(['error' =>'cannot crawl data']);
+        }
+
+
         return response()->json(['token'=>$token, 'user'=>$user]);
     }
 

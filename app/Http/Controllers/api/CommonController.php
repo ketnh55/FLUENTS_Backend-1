@@ -41,9 +41,9 @@ class CommonController extends  Controller
         return response()->json(compact('user'));
     }
 
-    public function get_category_info(Request $request)
+    public function get_category_info()
     {
-        JWTAuth::toUser($request->token);
+        JWTAuth::parseToken()->authenticate();
         $category = Category::all();
         return response()->json($category);
     }
