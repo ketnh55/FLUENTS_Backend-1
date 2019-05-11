@@ -49,7 +49,8 @@ class UserSocialServices
             'link' => $request->get('link'),
             'avatar' => $request->get('avatar'),
             'username' => $request->get('username'),
-            'secret_token' => $request->get('secret_token')
+            'secret_token' => $request->get('secret_token'),
+            'refresh_token' => $request->get('refresh_token'),
         ]);
         $acc->user()->associate($user);
         $acc->save();
@@ -112,7 +113,8 @@ class UserSocialServices
             'link' => $request->get('link'),
             'avatar' => $request->get('avatar'),
             'username' => $request->get('username'),
-            'secret_token' => $request->get('secret_token')
+            'secret_token' => $request->get('secret_token'),
+            'refresh_token' => $request->get('refresh_token'),
         ]);
         $acc->user()->associate($user);
         $acc->save();
