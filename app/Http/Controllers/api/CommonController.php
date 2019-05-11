@@ -12,6 +12,7 @@ use App\Http\Services\SnsInfoService;
 use App\Http\Services\UserSocialServices;
 use App\Model\Category;
 use App\Model\SNSInfo;
+use Illuminate\Support\Facades\Storage;
 use JWTFactory;
 use JWTAuth;
 use App\Http\Controllers\Controller;
@@ -59,5 +60,15 @@ class CommonController extends  Controller
         $user = JWTAuth::parseToken()->authenticate();
         $ret = $this->userSocialService->deactive_user($user);
         return $ret;
+    }
+
+    public function uploadImage(Request $request)
+    {
+
+        $path = $request->file('avatar')->store('avatars');
+
+        $url = Storage::disk('gcs')->url($path);
+        
+        return $url;
     }
 }
