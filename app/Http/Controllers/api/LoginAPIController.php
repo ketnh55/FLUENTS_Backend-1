@@ -90,7 +90,7 @@ class LoginAPIController extends Controller
     public function user_update_info_api(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'date_of_birth' => 'sometimes|required|date_format:Y-m-d',
+            'date_of_birth' => 'sometimes|required|date_format:m-d-Y',
             'gender' => 'sometimes|required|string',
             'country' => 'sometimes|required|string',
             'location' => 'sometimes|required|string',

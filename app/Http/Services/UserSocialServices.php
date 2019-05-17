@@ -10,6 +10,7 @@ namespace App\Http\Services;
 use App\Model\Category;
 use App\Model\UserSocial;
 use App\User;
+use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -69,7 +70,9 @@ class UserSocialServices
         {
             return response()->json(['error' => 'User type was existed']);
         }
-        $user->date_of_birth = $request->get('date_of_birth')==null?$user->date_of_birth:$request->get('date_of_birth');
+
+        $user->date_of_birth = $request->get('date_of_birth')==null?$user->date_of_birth:Carbon::createFromFormat('m-d-Y', $request->get('date_of_birth'));
+//        $user->date_of_birth = $request->get('date_of_birth')==null?$user->date_of_birth:$request->get('date_of_birth');
         $user->gender = $request->get('gender')==null?$user->gender:$request->get('gender');
         $user->country = $request->get('country')==null?$user->country:$request->get('country');
         $user->location = $request->get('location')==null?$user->location:$request->get('location');
