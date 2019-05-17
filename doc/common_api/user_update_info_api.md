@@ -24,7 +24,7 @@
 
 name  | description| format | type | range | required
 --- | ---| ---| ---|---|---
-date_of_birth|date of birth of user|-|string|-|false
+date_of_birth|date of birth of user|m-d-Y|string|-|false
 country|country of user|-|string|-|false 
 gender|gender|-|string|-|false
 location|location|-|string|-|false 
