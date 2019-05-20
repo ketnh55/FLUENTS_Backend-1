@@ -29,6 +29,10 @@ class CommonController extends  Controller
         $this->userSocialService = $userSocialService;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get_user_info(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
@@ -41,6 +45,9 @@ class CommonController extends  Controller
         return response()->json(compact('user'));
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get_category_info()
     {
         JWTAuth::parseToken()->authenticate();
@@ -55,6 +62,9 @@ class CommonController extends  Controller
         return $info;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deactive_acc(){
         $user = JWTAuth::parseToken()->authenticate();
         $ret = $this->userSocialService->deactive_user($user);

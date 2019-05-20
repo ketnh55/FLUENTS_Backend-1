@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Services\UserSocialServices;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use JWTFactory;
 use JWTAuth;
 use Validator;
@@ -16,6 +17,7 @@ use GuzzleHttp\Client;
 class LoginAPIController extends Controller
 {
 
+    use CrawlDataSupporter;
     protected $socialAccountServices;
 
     /**
@@ -53,28 +55,19 @@ class LoginAPIController extends Controller
         }
         $token = JWTAuth::fromUser($user);
         $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
-        $ret = $this->socialAccountServices->linkToSns($user, $request);
-
         //call crawl data by api
-        $body = [
-            'platform_id' => $request->get('sns_account_id'),
-            'sns_access_token' => $request->get('sns_access_token'),
-            'social_type' => (int)$request->get('social_type'),
-            'secret_token' => $request->get('secret_token')
-        ];
-
-        $client = new Client();
-        $response = $client->request('POST', 'https://python-api.fluents.app/api/social-data/add-new-platform', ['json' => $body]);
-        //call api fail
-        if($response->getStatusCode() !== 200)
+        $crawlSns = $this->crawlSnsData();
+        if($crawlSns !== 200)
         {
             return response()->json(['error' =>'cannot crawl data']);
         }
-
-
         return response()->json(['token'=>$token, 'user'=>$user]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function user_login_api(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
@@ -87,6 +80,10 @@ class LoginAPIController extends Controller
         return response()->json(["allow_access"=>"true", 'user' => $user]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function user_update_info_api(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -99,13 +96,15 @@ class LoginAPIController extends Controller
             'username' => 'sometimes|required|string',
             'email' => 'sometimes|required|string|email|max:255',
             'avatar' => 'sometimes|required|string',
-            'categories' => 'sometimes|required|array'
+            'categories' => 'sometimes|required|array',
+            'password' => 'sometimes|required|string|min:6'
+
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
         $user = JWTAuth::toUser($request->token);
-        $ret = $this->socialAccountServices->updateUserInfo($user, $request);
+        $ret = $this->socialAccountServices->updateUserInfo($user);
         return $ret;
     }
 
@@ -119,4 +118,45 @@ class LoginAPIController extends Controller
         return response()->json(['logout' => 'success']);
     }
 
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function user_register_email(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+        return $this->socialAccountServices->register_by_email();
+
+    }
+
+    public function login_by_email(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            if($user->is_active == 0){
+                return response()->json(['message' => 'user is not active']);
+            }
+            $token = JWTAuth::fromUser($user);
+            $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+            $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
+            return response()->json(['token'=>$token, 'user'=>$user]);
+        }
+    }
 }

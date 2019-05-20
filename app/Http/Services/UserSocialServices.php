@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
 
 class UserSocialServices
 {
@@ -21,12 +22,12 @@ class UserSocialServices
      * @param Request $request
      * @return mixed
      */
-    public function createOrGetSocailUser(Request $request)
+    public function createOrGetSocailUser()
     {
         /*
          * Check if user exists or not
          * */
-        $userSocial = UserSocial::where(['platform_id' => $request->get('sns_account_id'), 'social_type'=>$request->get('social_type')])->first();
+        $userSocial = UserSocial::where(['platform_id' => Input::get('sns_account_id'), 'social_type'=>Input::get('social_type')])->first();
         if($userSocial)
         {
             $user = $userSocial->user;
@@ -36,22 +37,22 @@ class UserSocialServices
 
         //if not
         $user = User::create([
-            'email'=>$request->get('email'),
-            'username'=>$request->get('username'),
-            'avatar'=>$request->get('avatar'),
+            'email'=>Input::get('email'),
+            'username'=>Input::get('username'),
+            'avatar'=>Input::get('avatar'),
             'is_active'=>1
         ]);
         // create social user with main user
         $acc = new UserSocial([
-            'platform_id' => $request->get('sns_account_id'),
-            'social_type' => $request->get('social_type'),
-            'sns_access_token' => $request->get('sns_access_token'),
-            'email' => $request->get('email'),
-            'link' => $request->get('link'),
-            'avatar' => $request->get('avatar'),
-            'username' => $request->get('username'),
-            'secret_token' => $request->get('secret_token'),
-            'refresh_token' => $request->get('refresh_token'),
+            'platform_id' => Input::get('sns_account_id'),
+            'social_type' => Input::get('social_type'),
+            'sns_access_token' => Input::get('sns_access_token'),
+            'email' => Input::get('email'),
+            'link' => Input::get('link'),
+            'avatar' => Input::get('avatar'),
+            'username' => Input::get('username'),
+            'secret_token' => Input::get('secret_token'),
+            'refresh_token' => Input::get('refresh_token'),
         ]);
         $acc->user()->associate($user);
         $acc->save();
@@ -59,38 +60,39 @@ class UserSocialServices
         return $user;
     }
 
-    public function updateUserInfo(User $user, Request $request)
+    public function updateUserInfo(User $user)
     {
         $user = User::findOrFail($user->id);
         if($user->is_active != 1)
         {
             return response()->json(['error' => 'User is deactivated']);
         }
-        if ($user->user_type !== null && $request->get('user_type') !== null)
+        if ($user->user_type !== null && Input::get('user_type') !== null)
         {
             return response()->json(['error' => 'User type was existed']);
         }
 
-        $user->date_of_birth = $request->get('date_of_birth')==null?$user->date_of_birth:Carbon::createFromFormat('m-d-Y', $request->get('date_of_birth'));
-//        $user->date_of_birth = $request->get('date_of_birth')==null?$user->date_of_birth:$request->get('date_of_birth');
-        $user->gender = $request->get('gender')==null?$user->gender:$request->get('gender');
-        $user->country = $request->get('country')==null?$user->country:$request->get('country');
-        $user->location = $request->get('location')==null?$user->location:$request->get('location');
-        $user->description = $request->get('description')==null?$user->description:$request->get('description');
-        $user->user_type = $request->get('user_type')==null?$user->user_type:$request->get('user_type');
-        $user->username = $request->get('username')==null?$user->username:$request->get('username');
-        $user->email = $request->get('email')==null?$user->email:$request->get('email');
-        $user->avatar = $request->get('avatar')==null?$user->avatar:$request->get('avatar');
-        if($request->get('categories') !== null)
+        $user->date_of_birth = Input::get('date_of_birth')==null?$user->date_of_birth:Carbon::createFromFormat('m-d-Y', Input::get('date_of_birth'));
+//        $user->date_of_birth = Input::get('date_of_birth')==null?$user->date_of_birth:Input::get('date_of_birth');
+        $user->gender = Input::get('gender')==null?$user->gender:Input::get('gender');
+        $user->country = Input::get('country')==null?$user->country:Input::get('country');
+        $user->location = Input::get('location')==null?$user->location:Input::get('location');
+        $user->description = Input::get('description')==null?$user->description:Input::get('description');
+        $user->user_type = Input::get('user_type')==null?$user->user_type:Input::get('user_type');
+        $user->username = Input::get('username')==null?$user->username:Input::get('username');
+        $user->email = Input::get('email')==null?$user->email:Input::get('email');
+        $user->avatar = Input::get('avatar')==null?$user->avatar:Input::get('avatar');
+        $user->password = Hash::make(Input::get('password'));
+        if(Input::get('categories') !== null)
         {
-            $user->categories()->sync($request->get('categories'));
+            $user->categories()->sync(Input::get('categories'));
         }
 
         $user->save();
         return response()->json(['update_user_info' => 'Success']);
     }
 
-    public function linkToSns(User $user, Request $request)
+    public function linkToSns(User $user)
     {
         $user = User::with('user_socials')->findOrFail($user->id);
 
@@ -101,7 +103,7 @@ class UserSocialServices
         }
 
         //check if sns account was linked to another account
-        $user_socials = UserSocial::where(['platform_id'=>$request->get('sns_account_id'), 'social_type'=>$request->get('social_type')])->count();
+        $user_socials = UserSocial::where(['platform_id'=>Input::get('sns_account_id'), 'social_type'=>Input::get('social_type')])->count();
         if($user_socials > 0)
         {
             return response()->json(['error'=>'user was existed']);
@@ -109,15 +111,15 @@ class UserSocialServices
 
         // create social user with main user
         $acc = new UserSocial([
-            'platform_id' => $request->get('sns_account_id'),
-            'social_type' => $request->get('social_type'),
-            'sns_access_token' => $request->get('sns_access_token'),
-            'email' => $request->get('email'),
-            'link' => $request->get('link'),
-            'avatar' => $request->get('avatar'),
-            'username' => $request->get('username'),
-            'secret_token' => $request->get('secret_token'),
-            'refresh_token' => $request->get('refresh_token'),
+            'platform_id' => Input::get('sns_account_id'),
+            'social_type' => Input::get('social_type'),
+            'sns_access_token' => Input::get('sns_access_token'),
+            'email' => Input::get('email'),
+            'link' => Input::get('link'),
+            'avatar' => Input::get('avatar'),
+            'username' => Input::get('username'),
+            'secret_token' => Input::get('secret_token'),
+            'refresh_token' => Input::get('refresh_token'),
         ]);
         $acc->user()->associate($user);
         $acc->save();
@@ -129,7 +131,7 @@ class UserSocialServices
     /**
      * @param Request $request
      */
-    public function deleteSNSAcc(User $user, Request $request)
+    public function deleteSNSAcc(User $user)
     {
         $user = User::find($user->id);
         //check if user deactivate
@@ -139,15 +141,19 @@ class UserSocialServices
         }
 
         //Check if social user belong user
-        $count_sns_acc = $user->user_socials()->where(['platform_id' => $request->get('sns_account_id'), 'social_type' => $request->get('social_type')])->count();
+        $count_sns_acc = $user->user_socials()->where(['platform_id' => Input::get('sns_account_id'), 'social_type' => Input::get('social_type')])->count();
         if($count_sns_acc > 0)
         {
-            $user->user_socials()->where(['platform_id' => $request->get('sns_account_id'), 'social_type' => $request->get('social_type')])->delete();
+            $user->user_socials()->where(['platform_id' => Input::get('sns_account_id'), 'social_type' => Input::get('social_type')])->delete();
             return response()->json(['remove' => 'success']);
         }
         return response()->json(['error' => 'User cannot found']);
     }
 
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deactive_user(User $user)
     {
         $user = User::find($user->id);
@@ -159,5 +165,22 @@ class UserSocialServices
         $user->is_active = 0;
         $user->save();
         return response()->json(['deactive' => 'success']);
+    }
+
+    public function register_by_email()
+    {
+        $email = Input::get('email');
+        $password = Input::get('password');
+        $numberOfEmail = User::whereEmail($email)->count();
+        if($numberOfEmail > 0)
+        {
+            return response()->json(['error' => 'email was linked to other account']);
+        }
+        $user = new User();
+        $user->email = $email;
+        $user->password = Hash::make($password);
+        $user ->is_active = 0;
+        $user->save();
+        return response()->json(['status'=>'success']);
     }
 }
