@@ -1,5 +1,8 @@
 # mobile_backend api
 API change log
+- 2019-05-20    
+    - Add api register user by email and login user by email         
+------------------------------------------------------------------------------------------------------------
 - 2019-05-17    
     - Change date_time format for date_of_birth (user_update_info_api)         
         + Change from Y-m-d to m-d-Y
