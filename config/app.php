@@ -177,7 +177,7 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Unisharp\FileApi\FileApiServiceProvider::class,
-        Superbalist\LaravelGoogleCloudStorage\GoogleCloudStorageServiceProvider::class,
+//        Superbalist\LaravelGoogleCloudStorage\GoogleCloudStorageServiceProvider::class,
     ],
 
     /*
