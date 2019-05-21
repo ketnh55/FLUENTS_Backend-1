@@ -1,4 +1,4 @@
-# Deactive user api
+# User Login API
 
 | attribute | value |
 |-----------|-------|
@@ -18,7 +18,7 @@
 
 ## 3. Method
 
-- GET
+- POST
 
 ## 4.Input 
 
