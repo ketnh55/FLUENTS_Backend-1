@@ -26,8 +26,7 @@ class HomeController extends Controller
     public function index($token)
     {
         $user = JWTAuth::toUser($token);
-
-        $user = Crypt::decrypt($token);
-        return dump($user);
+        $user->is_Active = true;
+        $user->save();
     }
 }

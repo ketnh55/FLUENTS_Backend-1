@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Services\UserSocialServices;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendWelcomeEmail;
 use App\Mail\ActiveEmail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -179,12 +180,12 @@ class LoginAPIController extends Controller
         }
 
 
-//        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(1)->timestamp]);
+        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(1)->timestamp]);
 
-        $token = Crypt::encrypt(['user' => $user, 'exp' => Carbon::now()->addMinute(1)->timestamp]);
+//        $token = Crypt::encrypt(['user' => $user, 'exp' => Carbon::now()->addMinute(1)->timestamp]);
         $link = route('home', ['token' => $token]);
 
-        Mail::to($request->get('email'))->send(new ActiveEmail($link));
+        $this->dispatch(new SendWelcomeEmail($link, $request->get('email')));
         return response()->json('ok');
     }
 }
