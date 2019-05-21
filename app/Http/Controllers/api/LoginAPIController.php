@@ -137,6 +137,10 @@ class LoginAPIController extends Controller
             return response()->json($validator->errors());
         }
         $user = $this->socialAccountServices->register_by_email();
+        if($user == null)
+        {
+            return response()->json(['error' => 'email was linked to other account']);
+        }
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
         $link = route('home', ['token' => $token]);
         $user->notify(new RegisterNotificationMail($link, 'Active account notification'));

@@ -175,7 +175,8 @@ class UserSocialServices
         $numberOfEmail = User::whereEmail($email)->count();
         if($numberOfEmail > 0)
         {
-            return response()->json(['error' => 'email was linked to other account']);
+            //return response()->json(['error' => 'email was linked to other account']);
+            return null;
         }
         $user = new User();
         $user->email = $email;
