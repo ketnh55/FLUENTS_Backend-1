@@ -28,5 +28,6 @@ class HomeController extends Controller
         $user = JWTAuth::toUser($token);
         $user->is_Active = true;
         $user->save();
+        return response()->json('Activated');
     }
 }

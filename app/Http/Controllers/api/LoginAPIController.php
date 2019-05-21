@@ -4,8 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Services\UserSocialServices;
 use App\Http\Controllers\Controller;
-use App\Jobs\SendWelcomeEmail;
-use App\Mail\ActiveEmail;
+use App\Notifications\RegisterNotificationMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -137,8 +136,11 @@ class LoginAPIController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
-        return $this->socialAccountServices->register_by_email();
-
+        $user = $this->socialAccountServices->register_by_email();
+        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
+        $link = route('home', ['token' => $token]);
+        $user->notify(new RegisterNotificationMail($link, 'Active account notification'));
+        return response()->json(['status' => 'success']);
     }
 
     public function login_by_email(Request $request)
@@ -165,7 +167,7 @@ class LoginAPIController extends Controller
         }
     }
 
-    public function activeEmail(Request $request)
+    public function reset_password(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
@@ -178,14 +180,9 @@ class LoginAPIController extends Controller
         {
             return response()->json(['error' => 'User is not existed']);
         }
-
-
-        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(1)->timestamp]);
-
-//        $token = Crypt::encrypt(['user' => $user, 'exp' => Carbon::now()->addMinute(1)->timestamp]);
+        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
         $link = route('home', ['token' => $token]);
-
-        $this->dispatch(new SendWelcomeEmail($link, $request->get('email')));
+        $user->notify(new RegisterNotificationMail($link, 'Register password notification'));
         return response()->json('ok');
     }
 }

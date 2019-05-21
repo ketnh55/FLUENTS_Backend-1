@@ -182,7 +182,7 @@ class UserSocialServices
         $user->password = Hash::make($password);
         $user ->is_active = 0;
         $user->save();
-        return response()->json(['status'=>'success']);
+        return $user;
     }
 
     public function checkIfUserExists(string $email)
