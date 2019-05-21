@@ -169,6 +169,9 @@ class LoginAPIController extends Controller
             $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
             return response()->json(['token'=>$token, 'user'=>$user]);
         }
+        else {
+            return response()->json(['message' => 'Username or Password is wrong']);
+        }
     }
 
     public function reset_password(Request $request)
