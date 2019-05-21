@@ -4,7 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Services\UserSocialServices;
 use App\Http\Controllers\Controller;
+use App\Mail\ActiveEmail;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 use JWTFactory;
 use JWTAuth;
 use Validator;
@@ -158,5 +162,29 @@ class LoginAPIController extends Controller
             $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
             return response()->json(['token'=>$token, 'user'=>$user]);
         }
+    }
+
+    public function activeEmail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+        $user = $this->socialAccountServices->checkIfUserExists($request->get('email'));
+        if($user == null)
+        {
+            return response()->json(['error' => 'User is not existed']);
+        }
+
+
+//        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(1)->timestamp]);
+
+        $token = Crypt::encrypt(['user' => $user, 'exp' => Carbon::now()->addMinute(1)->timestamp]);
+        $link = route('home', ['token' => $token]);
+
+        Mail::to($request->get('email'))->send(new ActiveEmail($link));
+        return response()->json('ok');
     }
 }

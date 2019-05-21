@@ -129,7 +129,8 @@ class UserSocialServices
     }
 
     /**
-     * @param Request $request
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
      */
     public function deleteSNSAcc(User $user)
     {
@@ -182,5 +183,13 @@ class UserSocialServices
         $user ->is_active = 0;
         $user->save();
         return response()->json(['status'=>'success']);
+    }
+
+    public function checkIfUserExists(string $email)
+    {
+        $user = User::whereEmail($email)->first();
+        return $user;
+
+
     }
 }

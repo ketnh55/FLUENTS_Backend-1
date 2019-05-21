@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
+    'cloud' => env('FILESYSTEM_CLOUD', 'gcs'),
 
     /*
     |--------------------------------------------------------------------------
@@ -62,6 +62,15 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
+        ],
+
+        'gcs' => [
+            'driver' => 'gcs',
+            'project_id' => 'fluents',
+            'key_file' => '../service-account.json',
+            'bucket' => 'media.fluents.app',
+            'path_prefix' => '',
+            'storage_api_uri' => '',
         ],
 
     ],
