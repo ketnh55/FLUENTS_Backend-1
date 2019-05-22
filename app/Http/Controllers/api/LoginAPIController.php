@@ -174,7 +174,7 @@ class LoginAPIController extends Controller
         }
     }
 
-    public function reset_password(Request $request)
+    public function send_email_reset_password(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
@@ -192,4 +192,25 @@ class LoginAPIController extends Controller
         $user->notify(new RegisterNotificationMail($link, 'Register password notification'));
         return response()->json('ok');
     }
+
+    public function active_user(Request $request)
+    {
+        $user = JWTAuth::toUser($request->token);
+        $user->is_active = 1;
+        $user->save();
+        return response()->json(['message' => 'Active success']);
+    }
+
+    public function reset_password(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|min:6',
+        ]);
+        $user = JWTAuth::toUser($request->token);
+        $user->password = Hash::make($request->get('password'));
+        $user->save();
+        return response()->json(['message' => 'Reset password success']);
+    }
+
+
 }
