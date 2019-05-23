@@ -47,7 +47,7 @@ class SnsController extends Controller
         $crawlSns = $this->crawlSnsData();
         if($crawlSns !== 200)
         {
-            return response()->json(['error' =>'cannot crawl data']);
+            return response()->json(['error' =>__('validation.cannot_crawl_data')]);
         }
 
         return $ret;

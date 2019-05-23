@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Notifications\RegisterNotificationMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Mail;
 use JWTFactory;
 use JWTAuth;
 use Validator;
@@ -16,7 +14,6 @@ use Response;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRegisterRequest;
-use GuzzleHttp\Client;
 
 class LoginAPIController extends Controller
 {
@@ -49,7 +46,7 @@ class LoginAPIController extends Controller
             $user = $this->socialAccountServices->createOrGetSocailUser($request);
             if($user->is_active != 1)
             {
-                return response()->json(['error' => 'User is deactivated']);
+                return response()->json(['error' => __('validation.user_is_deactivated')]);
             }
 
         }
@@ -63,7 +60,7 @@ class LoginAPIController extends Controller
         $crawlSns = $this->crawlSnsData();
         if($crawlSns !== 200)
         {
-            return response()->json(['error' =>'cannot crawl data']);
+            return response()->json(['error' =>__('validation.cannot_crawl_data')]);
         }
         return response()->json(['token'=>$token, 'user'=>$user]);
     }
@@ -78,7 +75,7 @@ class LoginAPIController extends Controller
         $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
         if($user->is_active != 1)
         {
-            return response()->json(['error' => 'User is deactivated']);
+            return response()->json(['error' => __('validation.user_is_deactivated')]);
         }
         $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
         return response()->json(["allow_access"=>"true", 'user' => $user]);
@@ -119,7 +116,7 @@ class LoginAPIController extends Controller
     public function logout_out()
     {
         JWTAuth::invalidate(JWTAuth::getToken());
-        return response()->json(['logout' => 'success']);
+        return response()->json(['logout' => __('response_message.status_success')]);
     }
 
 
@@ -139,12 +136,12 @@ class LoginAPIController extends Controller
         $user = $this->socialAccountServices->register_by_email();
         if($user == null)
         {
-            return response()->json(['error' => 'email was linked to other account']);
+            return response()->json(['error' => __('validation.email_was_linked_to_another')]);
         }
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
         $link = route('home', ['token' => $token]);
-        $user->notify(new RegisterNotificationMail($link, 'Active account notification'));
-        return response()->json(['status' => 'success']);
+        $user->notify(new RegisterNotificationMail($link, __('mail_message.active_mail_title')));
+        return response()->json(['status' => __('response_message.status_success')]);
     }
 
     public function login_by_email(Request $request)
@@ -162,7 +159,7 @@ class LoginAPIController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             if($user->is_active == 0){
-                return response()->json(['message' => 'user is not active']);
+                return response()->json(['message' => __('response_message.user_not_active')]);
             }
             $token = JWTAuth::fromUser($user);
             $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
@@ -170,7 +167,7 @@ class LoginAPIController extends Controller
             return response()->json(['token'=>$token, 'user'=>$user]);
         }
         else {
-            return response()->json(['message' => 'Username or Password is wrong']);
+            return response()->json(['message' => __('response_message.username_or_password_wrong')]);
         }
     }
 
@@ -185,12 +182,12 @@ class LoginAPIController extends Controller
         $user = $this->socialAccountServices->checkIfUserExists($request->get('email'));
         if($user == null)
         {
-            return response()->json(['error' => 'User is not existed']);
+            return response()->json(['error' => __('validation.user_not_exists')]);
         }
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
         $link = route('home', ['token' => $token]);
-        $user->notify(new RegisterNotificationMail($link, 'Register password notification'));
-        return response()->json('ok');
+        $user->notify(new RegisterNotificationMail($link, __('mail_message.register_mail_title')));
+        return response()->json(['message' => __('response_message.status_success')]);
     }
 
     public function active_user(Request $request)
@@ -198,7 +195,7 @@ class LoginAPIController extends Controller
         $user = JWTAuth::toUser($request->token);
         $user->is_active = 1;
         $user->save();
-        return response()->json(['message' => 'Active success']);
+        return response()->json(['message' => __('response_message.status_success')]);
     }
 
     public function reset_password(Request $request)
@@ -209,7 +206,7 @@ class LoginAPIController extends Controller
         $user = JWTAuth::toUser($request->token);
         $user->password = Hash::make($request->get('password'));
         $user->save();
-        return response()->json(['message' => 'Reset password success']);
+        return response()->json(['message' => __('response_message.status_success')]);
     }
 
 

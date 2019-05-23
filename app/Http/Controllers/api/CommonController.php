@@ -40,7 +40,7 @@ class CommonController extends  Controller
         $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
         if($user->is_active != 1)
         {
-            return response()->json(['error' => 'User is deactivated']);
+            return response()->json(['error' => __('validation.user_is_deactivated')]);
         }
         return response()->json(compact('user'));
     }

@@ -115,7 +115,10 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
-
+    'user_not_exists' => 'User not exists',
+    'email_was_linked_to_another' => 'email was linked to other account',
+    'user_is_deactivated' => 'User is deactivated',
+    'cannot_crawl_data' => 'Cannot crawl data',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

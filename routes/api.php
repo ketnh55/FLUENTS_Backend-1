@@ -27,6 +27,8 @@ Route::prefix('v1')->group(function(){
     Route::get('/deactive_user_api', 'api\CommonController@deactive_acc')->middleware('jwt.auth');
     Route::post('/user_register_email_api', 'api\LoginAPIController@user_register_email');
     Route::post('/user_login_email_api', 'api\LoginAPIController@login_by_email');
-    Route::post('/send_reset_password_api', 'api\LoginAPIController@reset_password');
-    Route::get('password/reset/{token}', 'api\LoginAPIController@reset_password')->name('password.reset');
+    Route::post('/send_reset_password_api', 'api\LoginAPIController@send_email_reset_password');
+    Route::post('/active_user_api', 'api\LoginAPIController@active_user')->middleware('jwt.auth');
+    Route::post('/reset_password_api', 'api\LoginAPIController@reset_password')->middleware('jwt.auth');
+
 });
