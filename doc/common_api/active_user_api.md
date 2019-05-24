@@ -11,6 +11,7 @@
 ## 1. Overview 
 
 - A API allow active account from mail.
+- Invalidate token after active user.
 
 ## 2. Endpoint
 
@@ -55,7 +56,7 @@ password|password|-|string|> 6 character|true
     + Yes: Return error
     + No: Go to step 3
 
-- Step 3: Active user and return result
+- Step 3: Active user, invalidate jwt and return result
 
 ## 8. Output
 

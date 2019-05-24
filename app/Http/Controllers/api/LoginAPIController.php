@@ -195,6 +195,7 @@ class LoginAPIController extends Controller
         $user = JWTAuth::toUser($request->token);
         $user->is_active = 1;
         $user->save();
+        JWTAuth::invalidate(JWTAuth::getToken());
         return response()->json(['message' => __('response_message.status_success')]);
     }
 
