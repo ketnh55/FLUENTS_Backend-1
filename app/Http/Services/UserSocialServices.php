@@ -7,11 +7,9 @@
  */
 
 namespace App\Http\Services;
-use App\Model\Category;
 use App\Model\UserSocial;
 use App\User;
 use Carbon\Carbon;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
@@ -82,7 +80,7 @@ class UserSocialServices
         $user->username = Input::get('username')==null?$user->username:Input::get('username');
         $user->email = Input::get('email')==null?$user->email:Input::get('email');
         $user->avatar = Input::get('avatar')==null?$user->avatar:Input::get('avatar');
-        $user->password = Hash::make(Input::get('password'));
+        $user->password = Input::get('password')==null?$user->password:Hash::make(Input::get('password'));
         if(Input::get('categories') !== null)
         {
             $user->categories()->sync(Input::get('categories'));
