@@ -15,6 +15,7 @@ use Response;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRegisterRequest;
+use Illuminate\Support\Facades\Hash;
 
 class LoginAPIController extends Controller
 {
