@@ -142,8 +142,8 @@ class LoginAPIController extends Controller
         }
         //Send mail to active account
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
-        $link = route('home', ['token' => $token]);
-        $user->notify(new ActiveNotificationMail($link, __('mail_message.active_mail_title'), $user));
+        //$link = route('home', ['token' => $token]);
+        $user->notify(new ActiveNotificationMail($token, __('mail_message.active_mail_title'), $user));
 
         return response()->json(['status' => __('response_message.status_success')]);
     }
@@ -210,8 +210,8 @@ class LoginAPIController extends Controller
 
         //Send mail to user to reset password
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
-        $link = route('home', ['token' => $token]);
-        $user->notify(new RegisterNotificationMail($link, __('mail_message.register_mail_title'), $user));
+        //$link = route('home', ['token' => $token]);
+        $user->notify(new RegisterNotificationMail($token, __('mail_message.register_mail_title'), $user));
         return response()->json(['message' => __('response_message.status_success')]);
     }
 

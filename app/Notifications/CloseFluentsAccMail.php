@@ -13,20 +13,20 @@ class CloseFluentsAccMail extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $link;
+    protected $token;
     protected $subject;
     protected $user;
 
     /**
      * CloseFluentsAccMail constructor.
-     * @param $link
+     * @param $token
      * @param $subject
      * @param User $user
      */
-    public function __construct($link, $subject, User $user)
+    public function __construct($token, $subject, User $user)
     {
         //
-        $this->link = $link;
+        $this->token = $token;
         $this->subject = $subject;
         $this->user = $user;
     }

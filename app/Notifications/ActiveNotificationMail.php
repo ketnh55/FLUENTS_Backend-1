@@ -13,20 +13,21 @@ class ActiveNotificationMail extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $link;
+    protected $token;
     protected $subject;
     protected $user;
 
+    private $BASE_URL = 'https://fluents.app/register/check/';
     /**
-     * ActiveNotificationMail constructor.
-     * @param $link
+     * RegisterNotificationMail constructor.
+     * @param $token
      * @param $subject
      * @param User $user
      */
-    public function __construct($link, $subject, User $user)
+    public function __construct($token, $subject, User $user)
     {
         //
-        $this->link = $link;
+        $this->token = $token;
         $this->subject = $subject;
         $this->user = $user;
     }
@@ -50,12 +51,13 @@ class ActiveNotificationMail extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $link = $this->BASE_URL.$this->token;
         return (new MailMessage)
             ->subject(Lang::getFromJson($this->subject))
             ->from('contact@fluents.app', 'FLUENTS')
             ->greeting('Hi ' .$this->user->email)
             ->line(Lang::getFromJson('We received a request to active your FLUENTS account.'))
-            ->action(Lang::getFromJson('Active'), $this->link)
+            ->action(Lang::getFromJson('Active'), $link)
             ->line(Lang::getFromJson('This active link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
             ->line(Lang::getFromJson('If you ignore this message, your account will not be activated. If you didn\'t request a activation, let us know.'))
             ->line('contact@fluents.app');

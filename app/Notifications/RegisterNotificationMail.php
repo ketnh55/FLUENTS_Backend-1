@@ -12,20 +12,21 @@ use Illuminate\Support\Facades\Lang;
 class RegisterNotificationMail extends Notification implements ShouldQueue
 {
     use Queueable;
-    protected $link;
+    protected $token;
     protected $subject;
     protected $user;
 
+    private $BASE_URL = 'https://fluents.app/user/resetpwd/';
     /**
      * RegisterNotificationMail constructor.
-     * @param $link
+     * @param $token
      * @param $subject
      * @param User $user
      */
-    public function __construct($link, $subject, User $user)
+    public function __construct($token, $subject, User $user)
     {
         //
-        $this->link = $link;
+        $this->token = $token;
         $this->subject = $subject;
         $this->user = $user;
     }
@@ -49,13 +50,13 @@ class RegisterNotificationMail extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-
+        $link = $this->BASE_URL.$this->token;
         return (new MailMessage)
                 ->subject(Lang::getFromJson($this->subject))
                 ->greeting('Hi '.$this->user->username)
                 ->from('contact@fluents.app', 'FLUENTS')
                 ->line(Lang::getFromJson('We received a request to reset your FLUENTS password.'))
-                ->action(Lang::getFromJson('Reset Password'), $this->link)
+                ->action(Lang::getFromJson('Reset Password'), $link)
                 ->line(Lang::getFromJson('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
                 ->line(Lang::getFromJson('If you ignore this message, your password will not be changed. If you didn\'t request a password reset, let us know.'))
                 ->line('contact@fluents.app');
