@@ -1,5 +1,12 @@
-# mobile_backend api
+# Backend api
 API change log
+- 2019-05-25    
+    - Send email api register user by email
+    - Add api send_reset_password_api
+    - Add api reset_password_api
+    - Send mail when deactive user
+             
+------------------------------------------------------------------------------------------------------------
 - 2019-05-20    
     - Add api register user by email and login user by email         
 ------------------------------------------------------------------------------------------------------------
