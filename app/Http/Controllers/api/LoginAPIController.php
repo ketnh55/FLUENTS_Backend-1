@@ -6,6 +6,8 @@ use App\Http\Services\UserSocialServices;
 use App\Http\Controllers\Controller;
 use App\Notifications\ActiveNotificationMail;
 use App\Notifications\RegisterNotificationMail;
+use App\Notifications\UpdateEmailMail;
+use App\Notifications\UpdatePasswordMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use JWTFactory;
@@ -107,8 +109,19 @@ class LoginAPIController extends Controller
             return response()->json($validator->errors());
         }
         $user = JWTAuth::toUser($request->token);
-        $ret = $this->socialAccountServices->updateUserInfo($user);
-        return $ret;
+        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addDays(60)->timestamp]);
+        if($request->get('email') != null && ($request->get('email') != $user->email))
+        {
+            $user->notify(new UpdateEmailMail($token, __('mail_message.update_email_title'), $user));
+        }
+
+        if($request->get('password') != null && Hash::make($request->get('password') != $user->password))
+        {
+            $user->notify(new UpdatePasswordMail($token, __('mail_message.update_email_title'), $user));
+        }
+
+        $this->socialAccountServices->updateUserInfo($user);
+        return response()->json(['status' => __('response_message.status_success')]);
     }
 
     /**
@@ -142,7 +155,6 @@ class LoginAPIController extends Controller
         }
         //Send mail to active account
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
-        //$link = route('home', ['token' => $token]);
         $user->notify(new ActiveNotificationMail($token, __('mail_message.active_mail_title'), $user));
 
         return response()->json(['status' => __('response_message.status_success')]);
@@ -248,7 +260,10 @@ class LoginAPIController extends Controller
 
         $user->password = Hash::make($request->get('password'));
         $user->save();
+
+        //invalidate jwt token
         JWTAuth::invalidate(JWTAuth::getToken());
+
         return response()->json(['message' => __('response_message.status_success')]);
     }
 

@@ -18,6 +18,7 @@ use JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use Carbon\Carbon;
 
 class CommonController extends  Controller
 {
@@ -66,14 +67,23 @@ class CommonController extends  Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
+    public function request_deactive_acc(){
+        $user = JWTAuth::parseToken()->authenticate();
+        //$ret = $this->userSocialService->deactive_user($user);
+
+        //Send mail to user to confirm deactive account
+        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addDays(60)->timestamp]);
+        $user->notify(new CloseFluentsAccMail($token, __('mail_message.close_fluent_account_title'), $user));
+        return response()->json(['message' => __('response_message.status_success')]);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deactive_acc(){
         $user = JWTAuth::parseToken()->authenticate();
         $ret = $this->userSocialService->deactive_user($user);
-
-        //Send mail to user to confirm deactive account
-        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
-        $link = route('home', ['token' => $token]);
-        $user->notify(new CloseFluentsAccMail($link, __('mail_message.register_mail_title'), $user));
+        JWTAuth::invalidate(JWTAuth::getToken());
         return $ret;
     }
 }

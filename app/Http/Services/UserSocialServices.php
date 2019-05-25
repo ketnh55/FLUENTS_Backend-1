@@ -69,9 +69,7 @@ class UserSocialServices
         {
             return response()->json(['error' => 'User type was existed']);
         }
-
         $user->date_of_birth = Input::get('date_of_birth')==null?$user->date_of_birth:Carbon::createFromFormat('m-d-Y', Input::get('date_of_birth'));
-//        $user->date_of_birth = Input::get('date_of_birth')==null?$user->date_of_birth:Input::get('date_of_birth');
         $user->gender = Input::get('gender')==null?$user->gender:Input::get('gender');
         $user->country = Input::get('country')==null?$user->country:Input::get('country');
         $user->location = Input::get('location')==null?$user->location:Input::get('location');
@@ -87,7 +85,6 @@ class UserSocialServices
         }
 
         $user->save();
-        return response()->json(['update_user_info' => 'Success']);
     }
 
     public function linkToSns(User $user)
@@ -156,13 +153,7 @@ class UserSocialServices
     public function deactive_user(User $user)
     {
         $user = User::find($user->id);
-        //check if user deactivate
-        if($user->is_active != 1)
-        {
-            return response()->json(['error' => 'User is deactivated']);
-        }
-        $user->is_active = 0;
-        $user->save();
+        $user->delete();
         return response()->json(['deactive' => 'success']);
     }
 
