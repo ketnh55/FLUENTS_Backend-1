@@ -5,6 +5,7 @@ API change log
     - Add api send_reset_password_api
     - Add api reset_password_api
     - Send mail when deactive user
+    - Add api request_deactive_user
              
 ------------------------------------------------------------------------------------------------------------
 - 2019-05-20    
