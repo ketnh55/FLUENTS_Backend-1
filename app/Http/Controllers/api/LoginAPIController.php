@@ -248,6 +248,7 @@ class LoginAPIController extends Controller
 
         $user->password = Hash::make($request->get('password'));
         $user->save();
+        JWTAuth::invalidate(JWTAuth::getToken());
         return response()->json(['message' => __('response_message.status_success')]);
     }
 
