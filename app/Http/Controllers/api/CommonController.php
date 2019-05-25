@@ -12,6 +12,7 @@ use App\Http\Services\SnsInfoService;
 use App\Http\Services\UserSocialServices;
 use App\Model\Category;
 use App\Model\SNSInfo;
+use App\Notifications\CloseFluentsAccMail;
 use JWTFactory;
 use JWTAuth;
 use App\Http\Controllers\Controller;
@@ -68,6 +69,11 @@ class CommonController extends  Controller
     public function deactive_acc(){
         $user = JWTAuth::parseToken()->authenticate();
         $ret = $this->userSocialService->deactive_user($user);
+
+        //Send mail to user to confirm deactive account
+        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
+        $link = route('home', ['token' => $token]);
+        $user->notify(new CloseFluentsAccMail($link, __('mail_message.register_mail_title'), $user));
         return $ret;
     }
 }

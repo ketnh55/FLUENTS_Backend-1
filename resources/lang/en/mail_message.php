@@ -1,6 +1,10 @@
 <?php
 
 return [
-    'active_mail_title' => 'Active account notification',
-    'register_mail_title' => 'Register password notification'
+    'active_mail_title' => 'Active account',
+    'register_mail_title' => 'Reset password',
+    'update_email_title' => 'Update email',
+    'update_social_account_title' => 'Update social account',
+    'update_password_title' => 'Update password title',
+    'close_fluent_account_title' => 'Close FLUENTS account'
 ];

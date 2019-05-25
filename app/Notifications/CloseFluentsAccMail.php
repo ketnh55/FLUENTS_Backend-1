@@ -2,22 +2,23 @@
 
 namespace App\Notifications;
 
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\User;
 use Illuminate\Support\Facades\Lang;
 
-class RegisterNotificationMail extends Notification implements ShouldQueue
+class CloseFluentsAccMail extends Notification implements ShouldQueue
 {
     use Queueable;
+
     protected $link;
     protected $subject;
     protected $user;
 
     /**
-     * RegisterNotificationMail constructor.
+     * CloseFluentsAccMail constructor.
      * @param $link
      * @param $subject
      * @param User $user
@@ -49,16 +50,15 @@ class RegisterNotificationMail extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-
         return (new MailMessage)
-                ->subject(Lang::getFromJson($this->subject))
-                ->greeting('Hi '.$this->user->username)
-                ->from('contact@fluents.app', 'FLUENTS')
-                ->line(Lang::getFromJson('We received a request to reset your FLUENTS password.'))
-                ->action(Lang::getFromJson('Reset Password'), $this->link)
-                ->line(Lang::getFromJson('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
-                ->line(Lang::getFromJson('If you ignore this message, your password will not be changed. If you didn\'t request a password reset, let us know.'))
-                ->line('contact@fluents.app');
+            ->subject(Lang::getFromJson($this->subject))
+            ->from('contact@fluents.app', 'FLUENTS')
+            ->greeting('Hi ' .$this->user->email)
+            ->line(Lang::getFromJson('You recently requested to close your FLUENTS account.'))
+            ->line(Lang::getFromJson('If you didn’t make this request, you don\'t need to do anything else. Your account will not be closed.'))
+            ->line(Lang::getFromJson('If you made this request, click the link below to close the account.'))
+            ->action(Lang::getFromJson('Close account'), $this->link)
+            ->line(Lang::getFromJson('This active link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]));
     }
 
     /**

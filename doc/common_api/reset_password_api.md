@@ -1,21 +1,21 @@
-# Active user api
+# Reset password api
 
 | attribute | value |
 |-----------|-------|
 | version   | 1.0   |
 | creator   | ket2.nguyen.huu@gmail.com |
-| created   | 2019-05-23 |
+| created   | 2019-05-24 |
 | updater   | 
 | updated   |  |
 
 ## 1. Overview 
 
-- A API allow active account from mail.
-- Invalidate token after active user.
+- A API allow user reset password if the case user forgot password
+- This api will called by a link in the email send to user
 
 ## 2. Endpoint
 
-- */api/v1/active_user_api*
+- */api/v1/reset_password_api*
 
 ## 3. Method
 
@@ -25,6 +25,7 @@
 
 name  | description| format | type | range | required
 --- | ---| ---| ---|---|---
+password|password|-|string|> 6 character|true
 
 ## 5.Example API Call
 
@@ -35,7 +36,7 @@ name  | description| format | type | range | required
     
     - Authorization : '"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL3VzZXJfbG9naW5fYXBpIiwiaWF0IjoxNTUzNDE5OTM2LCJleHAiOjE1NTM0MjM1MzYsIm5iZiI6MTU1MzQxOTkzNiwianRpIjoib1hDOE41UW12cEtBNUtCZSJ9.GPau62lF2scfzub6cHmlQx40yxjxTlmSKs1W7G9F1ws',        
         
-- Url : *http://domain_name/api/v1/active_user_api/*
+- Url : *http://domain_name/api/v1/reset_password_api/*
 
 ## 6. Diagram 
 
@@ -55,11 +56,11 @@ name  | description| format | type | range | required
     + Yes: Return error
     + No: Go to step 3
 
-- Step 3: Active user, invalidate jwt and return result
+- Step 3: Change password as the password user input
 
 ## 8. Output
 
-- Active user success or fail  
+- Change password success or not  
 
 ## 9. Example Response 
 
@@ -71,7 +72,7 @@ name  | description| format | type | range | required
     
     ```
     {
-        "message": "Active user success"
+        "message": "Success"
     }
     ```
     

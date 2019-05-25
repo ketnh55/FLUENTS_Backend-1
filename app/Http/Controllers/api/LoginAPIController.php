@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Services\UserSocialServices;
 use App\Http\Controllers\Controller;
+use App\Notifications\ActiveNotificationMail;
 use App\Notifications\RegisterNotificationMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -138,12 +139,18 @@ class LoginAPIController extends Controller
         {
             return response()->json(['error' => __('validation.email_was_linked_to_another')]);
         }
+        //Send mail to active account
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
         $link = route('home', ['token' => $token]);
-        $user->notify(new RegisterNotificationMail($link, __('mail_message.active_mail_title')));
+        $user->notify(new ActiveNotificationMail($link, __('mail_message.active_mail_title'), $user));
+
         return response()->json(['status' => __('response_message.status_success')]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login_by_email(Request $request)
     {
 
@@ -155,14 +162,18 @@ class LoginAPIController extends Controller
             return response()->json($validator->errors());
         }
 
+        //Authenticate email, password
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            //If user not active
             if($user->is_active == 0){
                 return response()->json(['message' => __('response_message.user_not_active')]);
             }
             $token = JWTAuth::fromUser($user);
             $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+
+            //Require update infomation of rnot
             $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
             return response()->json(['token'=>$token, 'user'=>$user]);
         }
@@ -171,6 +182,10 @@ class LoginAPIController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function send_email_reset_password(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -180,16 +195,29 @@ class LoginAPIController extends Controller
             return response()->json($validator->errors());
         }
         $user = $this->socialAccountServices->checkIfUserExists($request->get('email'));
+
+        /*No user match with email*/
         if($user == null)
         {
             return response()->json(['error' => __('validation.user_not_exists')]);
         }
+
+        //User is not active
+        if($user->is_active == 0){
+            return response()->json(['message' => __('response_message.user_not_active')]);
+        }
+
+        //Send mail to user to reset password
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
         $link = route('home', ['token' => $token]);
-        $user->notify(new RegisterNotificationMail($link, __('mail_message.register_mail_title')));
+        $user->notify(new RegisterNotificationMail($link, __('mail_message.register_mail_title'), $user));
         return response()->json(['message' => __('response_message.status_success')]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function active_user(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
@@ -199,12 +227,24 @@ class LoginAPIController extends Controller
         return response()->json(['message' => __('response_message.status_success')]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function reset_password(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:6',
         ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
         $user = JWTAuth::toUser($request->token);
+        //If user not active
+        if($user->is_active == 0){
+            return response()->json(['message' => __('response_message.user_not_active')]);
+        }
+
         $user->password = Hash::make($request->get('password'));
         $user->save();
         return response()->json(['message' => __('response_message.status_success')]);

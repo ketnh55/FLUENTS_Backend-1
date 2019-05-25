@@ -2,22 +2,23 @@
 
 namespace App\Notifications;
 
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\User;
 use Illuminate\Support\Facades\Lang;
 
-class RegisterNotificationMail extends Notification implements ShouldQueue
+class ActiveNotificationMail extends Notification implements ShouldQueue
 {
     use Queueable;
+
     protected $link;
     protected $subject;
     protected $user;
 
     /**
-     * RegisterNotificationMail constructor.
+     * ActiveNotificationMail constructor.
      * @param $link
      * @param $subject
      * @param User $user
@@ -49,16 +50,15 @@ class RegisterNotificationMail extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-
         return (new MailMessage)
-                ->subject(Lang::getFromJson($this->subject))
-                ->greeting('Hi '.$this->user->username)
-                ->from('contact@fluents.app', 'FLUENTS')
-                ->line(Lang::getFromJson('We received a request to reset your FLUENTS password.'))
-                ->action(Lang::getFromJson('Reset Password'), $this->link)
-                ->line(Lang::getFromJson('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
-                ->line(Lang::getFromJson('If you ignore this message, your password will not be changed. If you didn\'t request a password reset, let us know.'))
-                ->line('contact@fluents.app');
+            ->subject(Lang::getFromJson($this->subject))
+            ->from('contact@fluents.app', 'FLUENTS')
+            ->greeting('Hi ' .$this->user->email)
+            ->line(Lang::getFromJson('We received a request to active your FLUENTS account.'))
+            ->action(Lang::getFromJson('Active'), $this->link)
+            ->line(Lang::getFromJson('This active link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
+            ->line(Lang::getFromJson('If you ignore this message, your account will not be activated. If you didn\'t request a activation, let us know.'))
+            ->line('contact@fluents.app');
     }
 
     /**
