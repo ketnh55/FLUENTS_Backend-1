@@ -94,14 +94,14 @@ class UserSocialServices
         //check if user deactivate
         if($user->is_active != 1)
         {
-            return response()->json(['error' => __('response_message.user_not_active')], 412);
+            return response()->json(['error' => __('validation.user_not_active')], 412);
         }
 
         //check if sns account was linked to another account
-        $user_socials = UserSocial::where(['platform_id'=>Input::get('sns_account_id'), 'social_type'=>Input::get('social_type')])->count();
-        if($user_socials > 0)
+        $user_socials = UserSocial::where(['platform_id'=>Input::get('sns_account_id'), 'social_type'=>Input::get('social_type')]);
+        if($user_socials->count() > 0)
         {
-            return response()->json(['error'=>__('response_message.sns_was_linked_to_another')], 412);
+            $user_socials->first()->delete();
         }
 
         // create social user with main user
