@@ -43,11 +43,11 @@ class SnsController extends Controller
         if (!$validated) {
             return response()->json($validated->errors());
         }
-        $ret = $this->socialAccountServices->linkToSns($user, $request);
+        $ret = $this->socialAccountServices->linkToSns($user);
         $crawlSns = $this->crawlSnsData();
         if($crawlSns !== 200)
         {
-            return response()->json(['error' =>__('validation.cannot_crawl_data')]);
+            return response()->json(['error' =>__('validation.cannot_crawl_data')], 500);
         }
 
         return $ret;
@@ -67,7 +67,23 @@ class SnsController extends Controller
             return response()->json($validator->errors());
         }
         $user = JWTAuth::toUser($request->token);
-        $ret = $this->socialAccountServices->deleteSNSAcc($user, $request);
+        $ret = $this->socialAccountServices->deleteSNSAcc($user);
+        return $ret;
+
+    }
+
+    /**
+     * @param UserRegisterRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function check_sns_accout(UserRegisterRequest $request)
+    {
+        $user = JWTAuth::toUser($request->token);
+        $validated = $request->validated();
+        if (!$validated) {
+            return response()->json($validated->errors(), 400);
+        }
+        $ret = $this->socialAccountServices->check_sns_account($user);
         return $ret;
 
     }

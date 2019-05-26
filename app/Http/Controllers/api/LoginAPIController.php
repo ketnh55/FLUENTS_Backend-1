@@ -60,6 +60,7 @@ class LoginAPIController extends Controller
         }
         $token = JWTAuth::fromUser($user);
         $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
+        $user->user_socials()->count() > 0? $user->requied_update_sns = 'false' :$user->requied_update_sns = 'true';
         //call crawl data by api
         $crawlSns = $this->crawlSnsData();
         if($crawlSns !== 200)
@@ -82,6 +83,7 @@ class LoginAPIController extends Controller
             return response()->json(['error' => __('validation.user_is_deactivated')]);
         }
         $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
+        $user->user_socials()->count() > 0? $user->requied_update_sns = 'false' :$user->requied_update_sns = 'true';
         return response()->json(["allow_access"=>"true", 'user' => $user]);
     }
 
@@ -172,7 +174,7 @@ class LoginAPIController extends Controller
             'password' => 'required|string|min:6'
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(), 400);
         }
 
         //Authenticate email, password
@@ -188,6 +190,7 @@ class LoginAPIController extends Controller
 
             //Require update infomation of rnot
             $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';
+            $user->user_socials()->count() > 0? $user->requied_update_sns = 'false' :$user->requied_update_sns = 'true';
             return response()->json(['token'=>$token, 'user'=>$user]);
         }
         else {

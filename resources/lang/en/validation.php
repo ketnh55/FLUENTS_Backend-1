@@ -119,6 +119,7 @@ return [
     'email_was_linked_to_another' => 'email was linked to other account',
     'user_is_deactivated' => 'User is deactivated',
     'cannot_crawl_data' => 'Cannot crawl data',
+    'sns_was_linked_to_another' => 'sns account was linked to other account',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

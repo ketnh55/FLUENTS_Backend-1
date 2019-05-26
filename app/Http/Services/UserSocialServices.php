@@ -94,14 +94,14 @@ class UserSocialServices
         //check if user deactivate
         if($user->is_active != 1)
         {
-            return response()->json(['error' => 'User is deactivated']);
+            return response()->json(['error' => __('response_message.user_not_active')], 412);
         }
 
         //check if sns account was linked to another account
         $user_socials = UserSocial::where(['platform_id'=>Input::get('sns_account_id'), 'social_type'=>Input::get('social_type')])->count();
         if($user_socials > 0)
         {
-            return response()->json(['error'=>'user was existed']);
+            return response()->json(['error'=>__('response_message.sns_was_linked_to_another')], 412);
         }
 
         // create social user with main user
@@ -121,6 +121,28 @@ class UserSocialServices
         $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
         return response()->json(['link_to_sns'=>'success', 'user'=>$user]);
 
+    }
+
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function check_sns_account(User $user)
+    {
+        //check if user deactivate
+        if($user->is_active != 1)
+        {
+            return response()->json(['error' => __('validation.user_not_active')], 412);
+        }
+
+        //check if sns account was linked to another account
+        $user_socials = UserSocial::where(['platform_id'=>Input::get('sns_account_id'), 'social_type'=>Input::get('social_type')])->count();
+        if($user_socials > 0)
+        {
+            return response()->json(['message'=>__('validation.sns_was_linked_to_another')], 413);
+        }
+
+        return response()->json(['message'=>__('response_message.status_success')]);
     }
 
     /**
@@ -179,7 +201,7 @@ class UserSocialServices
     {
         $user = User::whereEmail($email)->first();
         return $user;
-
-
     }
+
+
 }

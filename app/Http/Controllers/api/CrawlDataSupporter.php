@@ -14,6 +14,7 @@ use GuzzleHttp\Client;
 Trait CrawlDataSupporter
 {
     private $CRAWL_DATA_URL = 'https://python-api.fluents.app/api/social-data/add-new-platform';
+    private $ERROR_CODE = 500;
     public function crawlSnsData()
     {
         $body = [
@@ -24,7 +25,14 @@ Trait CrawlDataSupporter
         ];
 
         $client = new Client();
-        $response = $client->request('POST', $this->CRAWL_DATA_URL, ['json' => $body]);
-        return $response->getStatusCode();
+        try{
+            $response = $client->request('POST', $this->CRAWL_DATA_URL, ['json' => $body]);
+            return $response->getStatusCode();
+        }
+        catch (\Exception $e){
+            return $this->ERROR_CODE;
+        }
+
+
     }
 }

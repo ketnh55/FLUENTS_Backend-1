@@ -1,5 +1,10 @@
 # Backend api
 API change log
+- 2019-05-26    
+    - Add api check_sns_api
+    - Add flag requied_update_sns to user object
+             
+------------------------------------------------------------------------------------------------------------
 - 2019-05-25    
     - Send email api register user by email
     - Add api send_reset_password_api
