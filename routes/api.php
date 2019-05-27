@@ -27,9 +27,9 @@ Route::prefix('v1')->group(function(){
     Route::get('/get_sns_info_api', 'api\CommonController@get_sns_info')->middleware('jwt.auth');
     Route::get('/deactive_user_api', 'api\CommonController@deactive_acc')->middleware('jwt.auth');
     Route::get('/request_deactive_user_api', 'api\CommonController@request_deactive_acc')->middleware('jwt.auth')->name('request_deactive');
-    Route::post('/user_register_email_api', 'api\LoginAPIController@user_register_email');
+    Route::post('/user_register_email_api', 'api\LoginAPIController@user_register_email')->name('register_email');
     Route::post('/user_login_email_api', 'api\LoginAPIController@login_by_email');
-    Route::post('/send_reset_password_api', 'api\LoginAPIController@send_email_reset_password');
+    Route::post('/send_reset_password_api', 'api\LoginAPIController@send_email_reset_password')->name('request_reset_password');
     Route::post('/active_user_api', 'api\LoginAPIController@active_user')->middleware('jwt.auth');
     Route::post('/reset_password_api', 'api\LoginAPIController@reset_password')->middleware('jwt.auth');
 

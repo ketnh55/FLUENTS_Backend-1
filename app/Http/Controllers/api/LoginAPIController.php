@@ -237,10 +237,16 @@ class LoginAPIController extends Controller
     public function active_user(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
-        $user->is_active = 1;
-        $user->save();
-        JWTAuth::invalidate(JWTAuth::getToken());
-        return response()->json(['message' => __('response_message.status_success')]);
+        if(JWTAuth::parseToken()->getPayload()->get('iss') == route('register_email'))
+        {
+            $user->is_active = 1;
+            $user->save();
+            JWTAuth::invalidate(JWTAuth::getToken());
+            return response()->json(['message' => __('response_message.status_success')]);
+
+        }
+        return response()->json(['message' => __('validation.invalid_request')], 400);
+
     }
 
     /**
@@ -256,18 +262,24 @@ class LoginAPIController extends Controller
             return response()->json($validator->errors());
         }
         $user = JWTAuth::toUser($request->token);
-        //If user not active
-        if($user->is_active == 0){
-            return response()->json(['message' => __('response_message.user_not_active')]);
+        if(JWTAuth::parseToken()->getPayload()->get('iss') == route('request_reset_password'))
+        {
+            //If user not active
+            if($user->is_active == 0){
+                return response()->json(['message' => __('response_message.user_not_active')]);
+            }
+
+            $user->password = Hash::make($request->get('password'));
+            $user->save();
+
+            //invalidate jwt token
+            JWTAuth::invalidate(JWTAuth::getToken());
+
+            return response()->json(['message' => __('response_message.status_success')]);
         }
 
-        $user->password = Hash::make($request->get('password'));
-        $user->save();
+        return response()->json(['message' => __('validation.invalid_request')], 400);
 
-        //invalidate jwt token
-        JWTAuth::invalidate(JWTAuth::getToken());
-
-        return response()->json(['message' => __('response_message.status_success')]);
     }
 
 

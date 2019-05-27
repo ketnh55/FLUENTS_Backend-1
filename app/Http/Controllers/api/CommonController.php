@@ -88,6 +88,7 @@ class CommonController extends  Controller
             JWTAuth::invalidate(JWTAuth::getToken());
             return $ret;
         }
+
         return response()->json(['message' => __('validation.invalid_request')], 400);
 
 
