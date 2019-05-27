@@ -119,7 +119,7 @@ class UserSocialServices
         $acc->user()->associate($user);
         $acc->save();
         $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
-        return response()->json(['link_to_sns'=>'success', 'user'=>$user]);
+        return response()->json(['message'=>__('response_message.status_success'), 'user'=>$user]);
 
     }
 
@@ -155,7 +155,7 @@ class UserSocialServices
         //check if user deactivate
         if($user->is_active != 1)
         {
-            return response()->json(['error' => 'User is deactivated']);
+            return response()->json(['error' => __('validation.user_is_deactivated')]);
         }
 
         //Check if social user belong user
@@ -163,9 +163,9 @@ class UserSocialServices
         if($count_sns_acc > 0)
         {
             $user->user_socials()->where(['platform_id' => Input::get('sns_account_id'), 'social_type' => Input::get('social_type')])->delete();
-            return response()->json(['remove' => 'success']);
+            return response()->json(['message'=>__('response_message.status_success')]);
         }
-        return response()->json(['error' => 'User cannot found']);
+        return response()->json(['error' => __('validation.user_not_exists')]);
     }
 
     /**
@@ -176,7 +176,7 @@ class UserSocialServices
     {
         $user = User::find($user->id);
         $user->delete();
-        return response()->json(['deactive' => 'success']);
+        return response()->json(['message'=>__('response_message.status_success')]);
     }
 
     public function register_by_email()
