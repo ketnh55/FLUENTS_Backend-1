@@ -69,7 +69,7 @@ class CommonController extends  Controller
      */
     public function request_deactive_acc(){
         $user = JWTAuth::parseToken()->authenticate();
-        //$ret = $this->userSocialService->deactive_user($user);
+        $user->is_deactive_requested = true;
 
         //Send mail to user to confirm deactive account
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addDays(60)->timestamp]);
@@ -82,8 +82,15 @@ class CommonController extends  Controller
      */
     public function deactive_acc(){
         $user = JWTAuth::parseToken()->authenticate();
-        $ret = $this->userSocialService->deactive_user($user);
-        JWTAuth::invalidate(JWTAuth::getToken());
-        return $ret;
+        if(JWTAuth::parseToken()->getPayload()->get('iss') == route('request_deactive'))
+        {
+            $ret = $this->userSocialService->deactive_user($user);
+            JWTAuth::invalidate(JWTAuth::getToken());
+            return $ret;
+        }
+        return response()->json(['message' => __('validation.invalid_request')], 400);
+
+
+
     }
 }
