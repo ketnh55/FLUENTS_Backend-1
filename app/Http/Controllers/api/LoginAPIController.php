@@ -18,6 +18,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class LoginAPIController extends Controller
 {
@@ -237,7 +238,7 @@ class LoginAPIController extends Controller
     public function active_user(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
-        if(JWTAuth::parseToken()->getPayload()->get('iss') == route('register_email'))
+        if( Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'), '/register_email'))
         {
             $user->is_active = 1;
             $user->save();
