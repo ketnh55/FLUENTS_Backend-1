@@ -238,7 +238,7 @@ class LoginAPIController extends Controller
     public function active_user(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
-        if( Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'), '/register_email'))
+        if( Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'), '/user_register_email_api'))
         {
             $user->is_active = 1;
             $user->save();
