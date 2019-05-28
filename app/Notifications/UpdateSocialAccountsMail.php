@@ -20,14 +20,12 @@ class UpdateSocialAccountsMail extends Notification implements ShouldQueue
     private $BASE_URL = 'https://fluents.app/profile';
     /**
      * RegisterNotificationMail constructor.
-     * @param $token
      * @param $subject
      * @param User $user
      */
-    public function __construct($token, $subject, User $user)
+    public function __construct($subject, User $user)
     {
         //
-        $this->token = $token;
         $this->subject = $subject;
         $this->user = $user;
     }
@@ -64,8 +62,6 @@ class UpdateSocialAccountsMail extends Notification implements ShouldQueue
         if (Input::get('social_type') == 4) {
             $sns_type = 'Youtube';
         }
-
-        $link = $this->BASE_URL . $this->token;
         return (new MailMessage)
             ->subject(Lang::getFromJson($this->subject))
             ->from('contact@fluents.app', 'FLUENTS')
