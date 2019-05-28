@@ -9,12 +9,14 @@
 namespace App\Http\Controllers\api;
 
 
+use App\Notifications\UpdateSocialAccountsMail;
 use JWTFactory;
 use JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Services\UserSocialServices;
 use App\Http\Requests\UserRegisterRequest;
+use Carbon\Carbon;
 use Validator;
 
 class SnsController extends Controller
@@ -49,6 +51,9 @@ class SnsController extends Controller
         {
             return response()->json(['error' =>__('validation.cannot_crawl_data')], 500);
         }
+
+        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
+        $user->notify(new UpdateSocialAccountsMail($token, __('mail_message.update_social_account_title'), $user));
 
         return $ret;
     }
