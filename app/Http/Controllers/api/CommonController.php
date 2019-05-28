@@ -13,6 +13,7 @@ use App\Http\Services\UserSocialServices;
 use App\Model\Category;
 use App\Model\SNSInfo;
 use App\Notifications\CloseFluentsAccMail;
+use Illuminate\Support\Str;
 use JWTFactory;
 use JWTAuth;
 use App\Http\Controllers\Controller;
@@ -82,7 +83,7 @@ class CommonController extends  Controller
      */
     public function deactive_acc(){
         $user = JWTAuth::parseToken()->authenticate();
-        if(JWTAuth::parseToken()->getPayload()->get('iss') == route('request_deactive'))
+        if(Str::contains(JWTAuth::parseToken()->getPayload()->get('iss') ,'/request_deactive_user_api'))
         {
             $ret = $this->userSocialService->deactive_user($user);
             JWTAuth::invalidate(JWTAuth::getToken());
