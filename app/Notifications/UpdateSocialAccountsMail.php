@@ -14,11 +14,10 @@ class UpdateSocialAccountsMail extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $token;
     protected $subject;
     protected $user;
 
-    private $BASE_URL = 'https://fluents.app/register/check/';
+    private $BASE_URL = 'https://fluents.app/profile';
     /**
      * RegisterNotificationMail constructor.
      * @param $token
@@ -73,11 +72,7 @@ class UpdateSocialAccountsMail extends Notification implements ShouldQueue
             ->greeting('Hi ' . $this->user->username)
             ->line(Lang::getFromJson('Your :sns_type account :social_name linked to your FLUENTS account was recently updated. If you made this change, you don\'t need to do anything else. ', ['sns_type' => $sns_type, 'social_name' => Input::get('username')]))
             ->line(Lang::getFromJson('If you didn\'t make this change, click the link below to update the change.'))
-            ->action(Lang::getFromJson('Update social account'), $link)
-            ->line(Lang::getFromJson(
-                'This link will expire in :count minutes.',
-                ['count' => config('auth.passwords.users.expire')]
-            ));
+            ->action(Lang::getFromJson('Update social account'), $this->BASE_URL);
     }
 
     /**
