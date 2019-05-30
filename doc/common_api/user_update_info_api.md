@@ -35,6 +35,8 @@ user_type|user type|-|string|1 (influencer) or 2 (marketer)|false
 username|username|-|string|-|false
 avatar|avatar user|-|string|-|false
 categories[]|categories of user|-|array|-|false
+first_name|first name|-|string|-|false
+last_name|last name|-|string|-|false
 
 ## 5.Example API Call
 
@@ -60,6 +62,8 @@ categories[]|categories of user|-|array|-|false
         - link: 'https://twitter.com/Cuong_dep_trai89625808'
         - category: 'https://twitter.com/Cuong_dep_trai89625808'
         - user_type: '1'        
+        - first_name: 'Cuong'
+        - last_name: 'Nguyen'
 - Url : *http://domain_name/api/v1/user_update_info_api/*
 
 ## 6. Diagram 
@@ -92,7 +96,7 @@ categories[]|categories of user|-|array|-|false
     
     ```
     {
-        "update_user_info": "success"
+        "status": "success"
     }    
     ```
     

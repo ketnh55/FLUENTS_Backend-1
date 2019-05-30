@@ -1,6 +1,11 @@
 # Backend api
 API change log
 - 2019-05-26    
+    - Add URL in mail for deactive api and user_update_info_api (when update email)
+    - Add first_name, last_name to user_update_info_api
+             
+------------------------------------------------------------------------------------------------------------
+- 2019-05-26    
     - Add api check_sns_api
     - Add flag requied_update_sns to user object
              
