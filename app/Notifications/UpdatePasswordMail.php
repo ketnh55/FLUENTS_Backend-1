@@ -16,7 +16,7 @@ class UpdatePasswordMail extends Notification implements ShouldQueue
     protected $subject;
     protected $user;
 
-    private $BASE_URL = 'https://fluents.app/user/close/';
+    private $BASE_URL = 'https://fluents.app/register/check/';
     /**
      * RegisterNotificationMail constructor.
      * @param $token

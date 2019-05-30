@@ -17,7 +17,7 @@ class CloseFluentsAccMail extends Notification implements ShouldQueue
     protected $subject;
     protected $user;
 
-    private $BASE_URL = 'https://fluents.app/register/check/';
+    private $BASE_URL = 'https://fluents.app/user/close/';
     /**
      * CloseFluentsAccMail constructor.
      * @param $token
