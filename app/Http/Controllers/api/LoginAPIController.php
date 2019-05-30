@@ -131,7 +131,7 @@ class LoginAPIController extends Controller
 
         if($request->get('password') != null && Hash::make($request->get('password') != $user->password))
         {
-            $user->notify(new UpdatePasswordMail($token, __('mail_message.update_email_title'), $user));
+            $user->notify(new UpdatePasswordMail($token, __('mail_message.update_password_title'), $user));
         }
 
         $this->socialAccountServices->updateUserInfo($user);
