@@ -56,9 +56,9 @@ class ActiveNotificationMail extends Notification implements ShouldQueue
             ->subject(Lang::getFromJson($this->subject))
             ->from('contact@fluents.app', 'FLUENTS')
             ->greeting('Hi ' .$this->user->email)
-            ->line(Lang::getFromJson('We received a request to active your FLUENTS account.'))
-            ->action(Lang::getFromJson('Active'), $link)
-            ->line(Lang::getFromJson('This active link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
+            ->line(Lang::getFromJson('We received a request to activate your FLUENTS account.'))
+            ->action(Lang::getFromJson('Activate'), $link)
+            ->line(Lang::getFromJson('This activate link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
             ->line(Lang::getFromJson('If you ignore this message, your account will not be activated. If you didn\'t request this activation, let us know.'))
             ->line('contact@fluents.app');
     }
