@@ -105,14 +105,30 @@ class LoginAPIController extends Controller
             'email' => 'sometimes|required|string|email|max:255',
             'avatar' => 'sometimes|required|string',
             'categories' => 'sometimes|required|array',
-            'password' => 'sometimes|required|string|min:6'
+            'password' => 'sometimes|required|string|min:8',
+            'first_name' => 'sometimes|required|string',
+            'last_name' => 'sometimes|required|string',
 
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
+        if($request->get('email') !== null
+            && $this->socialAccountServices->check_sns_account($request->get('email')) !== null)
+        {
+            return response()->json(['message' => __('validation.email_was_linked_to_another')], 400);
+        }
         $user = JWTAuth::toUser($request->token);
+        //Check duplicate email
+        if($request->get('email') !== null
+            && $user->email !== $request->get('email')
+            && $this->socialAccountServices->check_sns_account($request->get('email')) !== null
+            )
+        {
+            return response()->json(['message' => __('validation.email_was_linked_to_another')], 400);
+        }
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addDays(60)->timestamp]);
+        
         if($request->get('email') != null && ($request->get('email') != $user->email))
         {
             $user->notify(new UpdateEmailMail($token, __('mail_message.update_email_title'), $user));
@@ -146,7 +162,7 @@ class LoginAPIController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:8'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
@@ -172,7 +188,7 @@ class LoginAPIController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:8'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);

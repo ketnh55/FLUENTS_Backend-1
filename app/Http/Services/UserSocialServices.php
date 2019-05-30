@@ -78,6 +78,8 @@ class UserSocialServices
         $user->username = Input::get('username')==null?$user->username:Input::get('username');
         $user->email = Input::get('email')==null?$user->email:Input::get('email');
         $user->avatar = Input::get('avatar')==null?$user->avatar:Input::get('avatar');
+        $user->first_name = Input::get('first_name')==null?$user->first_name:Input::get('first_name');
+        $user->last_name = Input::get('last_name')==null?$user->last_name:Input::get('last_name');
         $user->password = Input::get('password')==null?$user->password:Hash::make(Input::get('password'));
         if(Input::get('categories') !== null)
         {

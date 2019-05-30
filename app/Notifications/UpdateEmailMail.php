@@ -16,7 +16,7 @@ class UpdateEmailMail extends Notification implements ShouldQueue
     protected $subject;
     protected $user;
 
-    private $BASE_URL = 'https://fluents.app/user/resetpwd/';
+    private $BASE_URL = 'https://fluents.app/user/rechange/email/';
     /**
      * RegisterNotificationMail constructor.
      * @param $token

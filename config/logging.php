@@ -55,7 +55,7 @@ return [
 
         'slack' => [
             'driver' => 'slack',
-            'url' => env('LOG_SLACK'),
+            'url' => env('SLACK_CALLBACK'),
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'level' => 'info',
