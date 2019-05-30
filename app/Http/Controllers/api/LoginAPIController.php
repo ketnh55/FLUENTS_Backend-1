@@ -114,7 +114,7 @@ class LoginAPIController extends Controller
             return response()->json($validator->errors());
         }
         if($request->get('email') !== null
-            && $this->socialAccountServices->check_sns_account($request->get('email')) !== null)
+            && $this->socialAccountServices->checkIfUserExists($request->get('email')) !== null)
         {
             return response()->json(['message' => __('validation.email_was_linked_to_another')], 400);
         }
