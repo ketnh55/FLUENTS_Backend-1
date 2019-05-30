@@ -113,18 +113,15 @@ class LoginAPIController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
+        //Check duplicate email
         if($request->get('email') !== null
             && $this->socialAccountServices->checkIfUserExists($request->get('email')) !== null)
         {
             return response()->json(['message' => __('validation.email_was_linked_to_another')], 400);
         }
         $user = JWTAuth::toUser($request->token);
-        //Check duplicate email
-        if($request->get('email') !== null
-            && $user->email !== $request->get('email'))
-        {
-            return response()->json(['message' => __('validation.email_was_linked_to_another')], 400);
-        }
+
+
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addDays(60)->timestamp]);
         
         if($request->get('email') != null && ($request->get('email') != $user->email))
