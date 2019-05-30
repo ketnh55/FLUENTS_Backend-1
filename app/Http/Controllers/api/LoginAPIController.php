@@ -121,9 +121,7 @@ class LoginAPIController extends Controller
         $user = JWTAuth::toUser($request->token);
         //Check duplicate email
         if($request->get('email') !== null
-            && $user->email !== $request->get('email')
-            && $this->socialAccountServices->check_sns_account($request->get('email')) !== null
-            )
+            && $user->email !== $request->get('email'))
         {
             return response()->json(['message' => __('validation.email_was_linked_to_another')], 400);
         }
