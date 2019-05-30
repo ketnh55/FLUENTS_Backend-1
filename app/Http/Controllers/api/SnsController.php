@@ -72,6 +72,7 @@ class SnsController extends Controller
             return response()->json($validator->errors());
         }
         $user = JWTAuth::toUser($request->token);
+        $user->notify(new UpdateSocialAccountsMail( __('mail_message.update_social_account_title'), $user));
         $ret = $this->socialAccountServices->deleteSNSAcc($user);
         return $ret;
 
