@@ -23,10 +23,10 @@ class UpdateSocialAccountsMail extends Notification implements ShouldQueue
      * @param $subject
      * @param User $user
      */
-    public function __construct($subject, User $user)
+    public function __construct(User $user)
     {
         //
-        $this->subject = $subject;
+        $this->subject = __('mail_message.update_social_account_title');
         $this->user = $user;
     }
 

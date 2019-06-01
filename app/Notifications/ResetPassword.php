@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Lang;
 
-class RegisterNotificationMail extends Notification implements ShouldQueue
+class ResetPassword extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $token;
@@ -23,11 +23,11 @@ class RegisterNotificationMail extends Notification implements ShouldQueue
      * @param $subject
      * @param User $user
      */
-    public function __construct($token, $subject, User $user)
+    public function __construct($token, User $user)
     {
         //
         $this->token = $token;
-        $this->subject = $subject;
+        $this->subject = __('mail_message.reset_password_mail_title');
         $this->user = $user;
     }
 

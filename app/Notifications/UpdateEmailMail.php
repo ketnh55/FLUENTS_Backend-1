@@ -23,11 +23,11 @@ class UpdateEmailMail extends Notification implements ShouldQueue
      * @param $subject
      * @param User $user
      */
-    public function __construct($token, $subject, User $user)
+    public function __construct($token, User $user)
     {
         //
         $this->token = $token;
-        $this->subject = $subject;
+        $this->subject = __('mail_message.update_email_title');
         $this->user = $user;
 
     }

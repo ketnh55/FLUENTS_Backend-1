@@ -51,10 +51,6 @@ class SnsController extends Controller
         {
             return response()->json(['error' =>__('validation.cannot_crawl_data')], 500);
         }
-
-        //$token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
-        $user->notify(new UpdateSocialAccountsMail( __('mail_message.update_social_account_title'), $user));
-
         return $ret;
     }
 
@@ -72,7 +68,7 @@ class SnsController extends Controller
             return response()->json($validator->errors());
         }
         $user = JWTAuth::toUser($request->token);
-        $user->notify(new UpdateSocialAccountsMail( __('mail_message.update_social_account_title'), $user));
+        $user->notify(new UpdateSocialAccountsMail($user));
         $ret = $this->socialAccountServices->deleteSNSAcc($user);
         return $ret;
 

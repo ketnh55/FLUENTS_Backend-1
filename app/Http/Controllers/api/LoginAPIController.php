@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Services\UserSocialServices;
 use App\Http\Controllers\Controller;
 use App\Notifications\ActiveNotificationMail;
-use App\Notifications\RegisterNotificationMail;
+use App\Notifications\ResetPassword;
 use App\Notifications\UpdateEmailMail;
 use App\Notifications\UpdatePasswordMail;
 use Carbon\Carbon;
@@ -128,12 +128,12 @@ class LoginAPIController extends Controller
         
         if($request->get('email') != null && ($request->get('email') != $user->email))
         {
-            $user->notify(new UpdateEmailMail($token, __('mail_message.update_email_title'), $user));
+            $user->notify(new UpdateEmailMail($token, $user));
         }
 
         if($request->get('password') != null && Hash::make($request->get('password') != $user->password))
         {
-            $user->notify(new UpdatePasswordMail($token, __('mail_message.update_password_title'), $user));
+            $user->notify(new UpdatePasswordMail($token, $user));
         }
 
         $this->socialAccountServices->updateUserInfo($user);
@@ -171,7 +171,7 @@ class LoginAPIController extends Controller
         }
         //Send mail to active account
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
-        $user->notify(new ActiveNotificationMail($token, __('mail_message.active_mail_title'), $user));
+        $user->notify(new ActiveNotificationMail($token, $user));
 
         return response()->json(['status' => __('response_message.status_success')]);
     }
@@ -240,7 +240,7 @@ class LoginAPIController extends Controller
         //Send mail to user to reset password
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
         //$link = route('home', ['token' => $token]);
-        $user->notify(new RegisterNotificationMail($token, __('mail_message.register_mail_title'), $user));
+        $user->notify(new ResetPassword($token, $user));
         return response()->json(['message' => __('response_message.status_success')]);
     }
 

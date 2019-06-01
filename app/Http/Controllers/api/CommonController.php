@@ -74,7 +74,7 @@ class CommonController extends  Controller
 
         //Send mail to user to confirm deactive account
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addDays(60)->timestamp]);
-        $user->notify(new CloseFluentsAccMail($token, __('mail_message.close_fluent_account_title'), $user));
+        $user->notify(new CloseFluentsAccMail($token, $user));
         return response()->json(['message' => __('response_message.status_success')]);
     }
 
