@@ -136,8 +136,8 @@ class LoginAPIController extends Controller
             $user->notify(new UpdatePasswordMail($token, $user));
         }
 
-        $this->socialAccountServices->updateUserInfo($user);
-        return response()->json(['status' => __('response_message.status_success')]);
+        $ret = $this->socialAccountServices->updateUserInfo($user);
+        return $ret;
     }
 
     /**

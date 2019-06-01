@@ -121,6 +121,7 @@ return [
     'cannot_crawl_data' => 'Cannot crawl data',
     'sns_was_linked_to_another' => 'sns account was linked to other account',
     'invalid_request' => 'invalid request',
+    'user_type_existed' => 'User type was existed',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
