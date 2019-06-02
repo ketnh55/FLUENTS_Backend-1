@@ -60,15 +60,7 @@ class UserSocialServices
 
     public function updateUserInfo(User $user)
     {
-        $user = User::findOrFail($user->id);
-        if($user->is_active != 1)
-        {
-            return response()->json(['error' => __('validation.user_is_deactivated')]);
-        }
-        if ($user->user_type !== null && Input::get('user_type') !== null)
-        {
-            return response()->json(['error' => __('validation.user_type_existed')]);
-        }
+        //$user = User::findOrFail($user->id);
         $user->date_of_birth = Input::get('date_of_birth')==null?$user->date_of_birth:Carbon::createFromFormat('m-d-Y', Input::get('date_of_birth'));
         $user->gender = Input::get('gender')==null?$user->gender:Input::get('gender');
         $user->country = Input::get('country')==null?$user->country:Input::get('country');
@@ -87,7 +79,7 @@ class UserSocialServices
         }
 
         $user->save();
-        return response()->json(['status' => __('response_message.status_success')]);
+
     }
 
     public function linkToSns(User $user)
