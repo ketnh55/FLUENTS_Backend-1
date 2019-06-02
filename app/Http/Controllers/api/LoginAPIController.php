@@ -126,12 +126,16 @@ class LoginAPIController extends Controller
         }
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addDays(60)->timestamp]);
         
-        if($request->get('email') != null && ($request->get('email') != $user->email))
+        if($request->get('email') != null
+            && ($request->get('email') != $user->email)
+            &&  !Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'), '/user_update_info_api'))
         {
             $user->notify(new UpdateEmailMail($token, $user));
         }
 
-        if($request->get('password') != null && Hash::make($request->get('password') != $user->password))
+        if($request->get('password') != null
+            && Hash::make($request->get('password') != $user->password)
+            &&  !Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'), '/user_update_info_api'))
         {
             $user->notify(new UpdatePasswordMail($token, $user));
         }
