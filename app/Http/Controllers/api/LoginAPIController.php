@@ -116,6 +116,18 @@ class LoginAPIController extends Controller
 
         $user = JWTAuth::toUser($request->token);
 
+        //Check user active or not
+        if($user->is_active != 1)
+        {
+            return response()->json(['error' => __('validation.user_is_deactivated')]);
+        }
+
+        //Check user type was existed or not
+        if ($user->user_type !== null && $request->get('user_type') !== null)
+        {
+            return response()->json(['error' => __('validation.user_type_existed')]);
+        }
+
         //Check duplicate email
         if($request->get('email') !== null
             && $request->get('email') !== $user->email
@@ -124,6 +136,7 @@ class LoginAPIController extends Controller
         {
             return response()->json(['message' => __('validation.email_was_linked_to_another')], 400);
         }
+
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addDays(60)->timestamp]);
         
         if($request->get('email') != null
@@ -140,8 +153,8 @@ class LoginAPIController extends Controller
             $user->notify(new UpdatePasswordMail($token, $user));
         }
 
-        $ret = $this->socialAccountServices->updateUserInfo($user);
-        return $ret;
+        $this->socialAccountServices->updateUserInfo($user);
+        return response()->json(['status' => __('response_message.status_success')]);
     }
 
     /**
