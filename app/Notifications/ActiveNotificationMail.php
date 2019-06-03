@@ -62,8 +62,7 @@ class ActiveNotificationMail extends Notification implements ShouldQueue
             ->action(Lang::getFromJson('Activate'), $link)
             ->line(Lang::getFromJson('This activate link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
             ->line(Lang::getFromJson('If you ignore this message, your account will not be activated. If you didn\'t request this activation, let us know.'))
-            ->line($this->CONTACT_EMAIL);
-
+            ->markdown('vendor.notifications.email', ['email' => $this->CONTACT_EMAIL]);
     }
 
     /**

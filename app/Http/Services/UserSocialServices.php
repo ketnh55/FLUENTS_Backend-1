@@ -29,7 +29,11 @@ class UserSocialServices
         if($userSocial)
         {
             $user = $userSocial->user;
-            $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+            $user = User::with('user_socials')->with(array(
+                'categories' => function($query){
+                    $query->orderBy('category_name');
+                }
+            ))->findOrFail($user->id);
             return $user;
         }
 
@@ -54,7 +58,11 @@ class UserSocialServices
         ]);
         $acc->user()->associate($user);
         $acc->save();
-        $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+        $user = User::with('user_socials')->with(array(
+            'categories' => function($query){
+                $query->orderBy('category_name');
+            }
+        ))->findOrFail($user->id);
         return $user;
     }
 
@@ -113,7 +121,11 @@ class UserSocialServices
         ]);
         $acc->user()->associate($user);
         $acc->save();
-        $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+        $user = User::with('user_socials')->with(array(
+            'categories' => function($query){
+                $query->orderBy('category_name');
+            }
+        ))->findOrFail($user->id);
         return response()->json(['message'=>__('response_message.status_success'), 'user'=>$user]);
 
     }
