@@ -17,6 +17,7 @@ class ResetPassword extends Notification implements ShouldQueue
     protected $user;
 
     private $BASE_URL = 'https://fluents.app/user/resetpwd/';
+    private $CONTACT_EMAIL = 'contact@fluents.app';
     /**
      * RegisterNotificationMail constructor.
      * @param $token
@@ -59,7 +60,8 @@ class ResetPassword extends Notification implements ShouldQueue
                 ->action(Lang::getFromJson('Reset Password'), $link)
                 ->line(Lang::getFromJson('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
                 ->line(Lang::getFromJson('If you ignore this message, your password will not be changed. If you didn\'t request a password reset, let us know.'))
-                ->line('contact@fluents.app');
+                ->markdown('vendor.notifications.email', ['email' => $this->CONTACT_EMAIL]);
+
     }
 
     /**
