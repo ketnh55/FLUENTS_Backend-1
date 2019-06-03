@@ -78,7 +78,11 @@ class LoginAPIController extends Controller
     public function user_login_api(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
-        $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+        $user = User::with('user_socials')->with(array(
+            'categories' => function($query){
+                $query->orderBy('category_name');
+            }
+        ))->findOrFail($user->id);
         if($user->is_active != 1)
         {
             return response()->json(['error' => __('validation.user_is_deactivated')]);
@@ -217,7 +221,11 @@ class LoginAPIController extends Controller
                 return response()->json(['message' => __('response_message.user_not_active')]);
             }
             $token = JWTAuth::fromUser($user);
-            $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+            $user = User::with('user_socials')->with(array(
+                'categories' => function($query){
+                    $query->orderBy('category_name');
+                }
+            ))->findOrFail($user->id);
 
             //Require update infomation of rnot
             $user->user_type !== null ? $user->require_update_info = 'false' :$user->require_update_info = 'true';

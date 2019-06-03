@@ -40,7 +40,11 @@ class CommonController extends  Controller
     {
         $user = JWTAuth::toUser($request->token);
 
-        $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+        $user = User::with('user_socials')->with(array(
+            'categories' => function($query){
+                $query->orderBy('category_name');
+            }
+        ))->findOrFail($user->id);
         if($user->is_active != 1)
         {
             return response()->json(['error' => __('validation.user_is_deactivated')]);
@@ -53,8 +57,8 @@ class CommonController extends  Controller
      */
     public function get_category_info()
     {
-        JWTAuth::parseToken()->authenticate();
-        $category = Category::all();
+        //JWTAuth::parseToken()->authenticate();
+        $category = Category::orderBy('category_name')->get();
         return response()->json($category);
     }
 
