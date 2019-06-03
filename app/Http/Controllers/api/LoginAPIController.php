@@ -293,7 +293,9 @@ class LoginAPIController extends Controller
             return response()->json($validator->errors());
         }
         $user = JWTAuth::toUser($request->token);
-        if(Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'),'/send_reset_password_api'))
+        if(
+            Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'),'/send_reset_password_api')
+        || Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'),'/user_update_info_api'))
         {
             //If user not active
             if($user->is_active == 0){
