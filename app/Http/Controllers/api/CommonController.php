@@ -16,6 +16,7 @@ use App\Notifications\CloseFluentsAccMail;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Validator;
 use JWTFactory;
 use JWTAuth;
 use App\Http\Controllers\Controller;
@@ -105,7 +106,7 @@ class CommonController extends  Controller
     public function uploadImage(Request $request, $filename)
     {
         $validator = Validator::make($request->all(), [
-            'image' => 'required|string|max:255'
+            'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);

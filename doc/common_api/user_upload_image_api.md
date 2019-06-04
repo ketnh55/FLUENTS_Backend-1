@@ -35,7 +35,7 @@ image|the image to upload|jpg, png|binary|-|true
     
     - Authorization : '"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL3VzZXJfbG9naW5fYXBpIiwiaWF0IjoxNTUzNDE5OTM2LCJleHAiOjE1NTM0MjM1MzYsIm5iZiI6MTU1MzQxOTkzNiwianRpIjoib1hDOE41UW12cEtBNUtCZSJ9.GPau62lF2scfzub6cHmlQx40yxjxTlmSKs1W7G9F1ws',        
         
-- Url : *http://domain_name//api/v1/images/event/{file_name}*
+- Url : *http://domain_name/api/v1/images/event/{file_name}*
 
 ## 6. Diagram 
 
