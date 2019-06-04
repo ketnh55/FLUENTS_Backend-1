@@ -8,17 +8,20 @@
 
 namespace App\Http\Controllers\api;
 
-use GuzzleHttp\Client;
+
+use App\Notifications\UpdateSocialAccountsMail;
 use JWTFactory;
 use JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Services\UserSocialServices;
 use App\Http\Requests\UserRegisterRequest;
+use Carbon\Carbon;
 use Validator;
 
 class SnsController extends Controller
 {
+    use CrawlDataSupporter;
     protected $socialAccountServices;
 
     /**
@@ -42,24 +45,19 @@ class SnsController extends Controller
         if (!$validated) {
             return response()->json($validated->errors());
         }
-        $ret = $this->socialAccountServices->linkToSns($user, $request);
-        $body = [
-            'platform_id' => $request->get('sns_account_id'),
-            'sns_access_token' => $request->get('sns_access_token'),
-            'social_type' => (int)$request->get('social_type'),
-            'secret_token' => $request->get('secret_token')
-        ];
-
-        $client = new Client();
-        $response = $client->request('POST', 'https://python-api.fluents.app/api/social-data/add-new-platform', ['json' => $body]);
-        if($response->getStatusCode() !== 200)
+        $ret = $this->socialAccountServices->linkToSns($user);
+        $crawlSns = $this->crawlSnsData();
+        if($crawlSns !== 200)
         {
-            return response()->json(['error' =>'cannot crawl data']);
+            return response()->json(['error' =>__('validation.cannot_crawl_data')], 500);
         }
-
         return $ret;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete_sns_user(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -70,7 +68,24 @@ class SnsController extends Controller
             return response()->json($validator->errors());
         }
         $user = JWTAuth::toUser($request->token);
-        $ret = $this->socialAccountServices->deleteSNSAcc($user, $request);
+        $user->notify(new UpdateSocialAccountsMail($user));
+        $ret = $this->socialAccountServices->deleteSNSAcc($user);
+        return $ret;
+
+    }
+
+    /**
+     * @param UserRegisterRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function check_sns_accout(UserRegisterRequest $request)
+    {
+        $user = JWTAuth::toUser($request->token);
+        $validated = $request->validated();
+        if (!$validated) {
+            return response()->json($validated->errors(), 400);
+        }
+        $ret = $this->socialAccountServices->check_sns_account($user);
         return $ret;
 
     }

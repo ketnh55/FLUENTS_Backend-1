@@ -12,12 +12,15 @@ use App\Http\Services\SnsInfoService;
 use App\Http\Services\UserSocialServices;
 use App\Model\Category;
 use App\Model\SNSInfo;
+use App\Notifications\CloseFluentsAccMail;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use JWTFactory;
 use JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use Carbon\Carbon;
 
 class CommonController extends  Controller
 {
@@ -30,22 +33,33 @@ class CommonController extends  Controller
         $this->userSocialService = $userSocialService;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get_user_info(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
 
-        $user = User::with('user_socials')->with('categories')->findOrFail($user->id);
+        $user = User::with('user_socials')->with(array(
+            'categories' => function($query){
+                $query->orderBy('category_name');
+            }
+        ))->findOrFail($user->id);
         if($user->is_active != 1)
         {
-            return response()->json(['error' => 'User is deactivated']);
+            return response()->json(['error' => __('validation.user_is_deactivated')]);
         }
         return response()->json(compact('user'));
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get_category_info()
     {
-        JWTAuth::parseToken()->authenticate();
-        $category = Category::all();
+        //JWTAuth::parseToken()->authenticate();
+        $category = Category::orderBy('category_name')->get();
         return response()->json($category);
     }
 
@@ -56,10 +70,35 @@ class CommonController extends  Controller
         return $info;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function request_deactive_acc(){
+        $user = JWTAuth::parseToken()->authenticate();
+        $user->is_deactive_requested = true;
+
+        //Send mail to user to confirm deactive account
+        $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addDays(60)->timestamp]);
+        $user->notify(new CloseFluentsAccMail($token, $user));
+        return response()->json(['message' => __('response_message.status_success')]);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deactive_acc(){
         $user = JWTAuth::parseToken()->authenticate();
-        $ret = $this->userSocialService->deactive_user($user);
-        return $ret;
+        if(Str::contains(JWTAuth::parseToken()->getPayload()->get('iss') ,'/request_deactive_user_api'))
+        {
+            $ret = $this->userSocialService->deactive_user($user);
+            JWTAuth::invalidate(JWTAuth::getToken());
+            return $ret;
+        }
+
+        return response()->json(['message' => __('validation.invalid_request')], 400);
+
+
+
     }
 
     public function uploadImage(Request $request)
@@ -68,7 +107,7 @@ class CommonController extends  Controller
         $path = $request->file('avatar')->store('avatars');
 
         $url = Storage::disk('gcs')->url($path);
-        
+
         return $url;
     }
 }
