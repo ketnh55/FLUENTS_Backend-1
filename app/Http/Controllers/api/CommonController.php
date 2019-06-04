@@ -13,6 +13,7 @@ use App\Http\Services\UserSocialServices;
 use App\Model\Category;
 use App\Model\SNSInfo;
 use App\Notifications\CloseFluentsAccMail;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use JWTFactory;
@@ -101,13 +102,19 @@ class CommonController extends  Controller
 
     }
 
-    public function uploadImage(Request $request)
+    public function uploadImage(Request $request, $filename)
     {
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|string|max:255'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
 
-        $path = $request->file('avatar')->store('avatars');
+        $path = $request->file('image')->store('avatars');
 
         $url = Storage::disk('gcs')->url($path);
-
-        return $url;
+        $filename = basename($url);
+        return response(Lang::getfromJson(__('response_message.upload_image_response'), ['path' => $url, 'filename' => $filename]), 200, ['Content-type' =>'application/json']);
     }
 }
