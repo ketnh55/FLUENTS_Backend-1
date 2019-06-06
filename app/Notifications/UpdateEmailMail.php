@@ -58,9 +58,9 @@ class UpdateEmailMail extends Notification implements ShouldQueue
                 ->from('contact@fluents.app', 'FLUENTS')
                 ->line(Lang::getFromJson('The email :email for your FLUENTS account was recently changed. If you made this change, you don\'t need to do anything else.'
                     ,['email' => $this->user->email]))
-                ->line(Lang::getFromJson('If you didn\'t make this change, click the link below to reset your password.'))
+                ->line(Lang::getFromJson('If you didn\'t make this change, click the link below to reset your email.'))
                 ->action(Lang::getFromJson('Update email'), $link)
-                ->line(Lang::getFromJson('This password reset link will expire in :count days.', ['count' => config('auth.passwords.users.expire')]));
+                ->line(Lang::getFromJson('This email reset link will expire in :count days.', ['count' => config('auth.passwords.users.expire')]));
     }
 
     /**
