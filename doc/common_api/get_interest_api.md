@@ -1,4 +1,4 @@
-# Get category api   
+# Get interest api   
 
 | attribute | value |
 |-----------|-------|
@@ -10,11 +10,11 @@
 
 ## 1. Overview 
 
-- A API allow front end get category from DB
+- A API allow front end get interest from DB
 
 ## 2. Endpoint
 
-- */api/v1/get_category_api*
+- */api/v1/get_interest_api*
 
 ## 3. Method
 
@@ -35,7 +35,7 @@ name  | description| format | type | range | required
     
     - Authorization : '"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL3VzZXJfbG9naW5fYXBpIiwiaWF0IjoxNTUzNDE5OTM2LCJleHAiOjE1NTM0MjM1MzYsIm5iZiI6MTU1MzQxOTkzNiwianRpIjoib1hDOE41UW12cEtBNUtCZSJ9.GPau62lF2scfzub6cHmlQx40yxjxTlmSKs1W7G9F1ws',        
         
-- Url : *http://domain_name/api/v1/get_category_api/*
+- Url : *http://domain_name/api/v1/get_interest_api/*
 
 ## 6. Diagram 
 
@@ -51,11 +51,11 @@ name  | description| format | type | range | required
             + Jwt token is not valid
             + Jwt user not found
 
-- Step 2 : return the array of category
+- Step 2 : return the array of interest
 
 ## 8. Output
 
-- Return array of category or error
+- Return array of interest or error
 
 ## 9. Example Response 
 
@@ -67,40 +67,40 @@ name  | description| format | type | range | required
     
     ```
     {
-        "category": [
+        "interest": [
             {
                 "id": 1,
-                "tag_name": "sport",
+                "interest_name": "sport",
                 "description": "sports"
             },
             {
                 "id": 2,
-                "tag_name": "shopping",
+                "interest_name": "shopping",
                 "description": "shopping"
             },
             {
                 "id": 3,
-                "tag_name": "music",
+                "interest_name": "music",
                 "description": "music"
             },
             {
                 "id": 4,
-                "tag_name": "manga",
+                "interest_name": "manga",
                 "description": "manga"
             },
             {
                 "id": 5,
-                "tag_name": "dragon ball",
+                "interest_name": "dragon ball",
                 "description": "dragon ball"
             },
             {
                 "id": 6,
-                "tag_name": "naruto",
+                "interest_name": "naruto",
                 "description": "naruto"
             },
             {
                 "id": 7,
-                "tag_name": "one peach",
+                "interest_name": "one peach",
                 "description": "one peach"
             }
         ]

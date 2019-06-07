@@ -21,7 +21,8 @@ Route::prefix('v1')->group(function(){
     Route::post('/user_update_info_api', 'api\LoginAPIController@user_update_info_api')->middleware('jwt.auth');
     Route::post('/link_user_to_sns_api', 'api\SnsController@link_to_sns')->middleware('jwt.auth');
     Route::post('/check_sns_api', 'api\SnsController@check_sns_accout')->middleware('jwt.auth');
-    Route::get('/get_category_api', 'api\CommonController@get_category_info')->middleware('jwt.auth');
+    Route::get('/get_interest_api', 'api\CommonController@get_interest_info')->middleware('jwt.auth');
+    Route::get('/get_profession_api', 'api\CommonController@get_profession_info')->middleware('jwt.auth');
     Route::get('/logout_api', 'api\LoginAPIController@logout_out')->middleware('jwt.auth');
     Route::post('/remove_sns_acc_api', 'api\SnsController@delete_sns_user')->middleware('jwt.auth');
     Route::get('/get_sns_info_api', 'api\CommonController@get_sns_info')->middleware('jwt.auth');

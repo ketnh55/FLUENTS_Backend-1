@@ -1,20 +1,20 @@
-# Get sns info api 
+# Get profession api   
 
 | attribute | value |
 |-----------|-------|
 | version   | 1.0   |
 | creator   | ket2.nguyen.huu@gmail.com |
-| created   | 2019-04-21 |
+| created   | 2019-06-07 |
 | updater   | 
 | updated   |  |
 
 ## 1. Overview 
 
-- A API allow front end get sns info (like, comments, posts, ...) for indicated user
+- A API allow front end get profession from DB
 
 ## 2. Endpoint
 
-- */api/v1/get_sns_info_api*
+- */api/v1/get_profession_api*
 
 ## 3. Method
 
@@ -26,17 +26,16 @@ name  | description| format | type | range | required
 --- | ---| ---| ---|---|---
 
 
-
 ## 5.Example API Call
 
 - Method : GET
 
 - Header: 
-    - X-Requested-With: XMLHttpRequest    
+    - X-Requested-With: XMLHttpRequest
+    
     - Authorization : '"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL3VzZXJfbG9naW5fYXBpIiwiaWF0IjoxNTUzNDE5OTM2LCJleHAiOjE1NTM0MjM1MzYsIm5iZiI6MTU1MzQxOTkzNiwianRpIjoib1hDOE41UW12cEtBNUtCZSJ9.GPau62lF2scfzub6cHmlQx40yxjxTlmSKs1W7G9F1ws',        
-- Body: 
-    - GET param: N/A     
-- Url : *http://domain_name/api/v1/get_sns_info_api/*
+        
+- Url : *http://domain_name/api/v1/get_profession_api/*
 
 ## 6. Diagram 
 
@@ -52,11 +51,11 @@ name  | description| format | type | range | required
             + Jwt token is not valid
             + Jwt user not found
 
-- Step 2 : return the array of interest
+- Step 2 : return the array of profession
 
 ## 8. Output
 
-- Return sns info for input user
+- Return array of profession or error
 
 ## 9. Example Response 
 
@@ -68,18 +67,41 @@ name  | description| format | type | range | required
     
     ```
     {
-        "info": [
+        "profession": [
             {
-                "id": "2131685551",
-                "comments": 0,
-                "followed_by": 96,
-                "follows": 256,
-                "full_name": "Hoang Thang",
-                "likes": 0,
-                "platform": "instagram",
-                "posts": 0,
-                "profile_picture": "https://scontent.cdninstagram.com/vp/66c30d44705f5d75f93198fedf152cf8/5D3A5EA6/t51.2885-19/11269191_1587122258225285_939115658_a.jpg?_nc_ht=scontent.cdninstagram.com",
-                "user_name": "hoang_van_thang"
+                "id": 1,
+                "profession_name": "sport",
+                "description": "sports"
+            },
+            {
+                "id": 2,
+                "profession_name": "shopping",
+                "description": "shopping"
+            },
+            {
+                "id": 3,
+                "profession_name": "music",
+                "description": "music"
+            },
+            {
+                "id": 4,
+                "profession_name": "manga",
+                "description": "manga"
+            },
+            {
+                "id": 5,
+                "profession_name": "dragon ball",
+                "description": "dragon ball"
+            },
+            {
+                "id": 6,
+                "profession_name": "naruto",
+                "description": "naruto"
+            },
+            {
+                "id": 7,
+                "profession_name": "one peach",
+                "description": "one peach"
             }
         ]
     }

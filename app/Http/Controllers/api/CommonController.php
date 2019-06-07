@@ -10,7 +10,8 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Services\SnsInfoService;
 use App\Http\Services\UserSocialServices;
-use App\Model\Category;
+use App\Model\Interest;
+use App\Model\Profession;
 use App\Model\SNSInfo;
 use App\Notifications\CloseFluentsAccMail;
 use Illuminate\Support\Facades\Lang;
@@ -43,11 +44,7 @@ class CommonController extends  Controller
     {
         $user = JWTAuth::toUser($request->token);
 
-        $user = User::with('user_socials')->with(array(
-            'categories' => function($query){
-                $query->orderBy('category_name');
-            }
-        ))->findOrFail($user->id);
+        $user = $this->getUserObject($user->id);
         if($user->is_active != 1)
         {
             return response()->json(['error' => __('validation.user_is_deactivated')]);
@@ -56,13 +53,22 @@ class CommonController extends  Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function get_category_info()
+ * @return \Illuminate\Http\JsonResponse
+ */
+    public function get_interest_info()
     {
         //JWTAuth::parseToken()->authenticate();
-        $category = Category::orderBy('category_name')->get();
-        return response()->json($category);
+        $interest = Interest::orderBy('interest_name')->get();
+        return response()->json($interest);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get_profession_info()
+    {
+        $profession = Profession::orderBy('profession_name')->get();
+        return response()->json($profession);
     }
 
     public function get_sns_info()

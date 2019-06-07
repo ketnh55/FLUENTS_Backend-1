@@ -14,13 +14,13 @@ class Add3field extends Migration
     public function up()
     {
         //
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('interest', function (Blueprint $table) {
             $table->dateTime('created_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
             $table->dateTime('updated_at')->nullable();
         });
 
-        Schema::table('user_categories', function (Blueprint $table) {
+        Schema::table('user_interest', function (Blueprint $table) {
             $table->dateTime('created_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
             $table->dateTime('updated_at')->nullable();
@@ -35,13 +35,13 @@ class Add3field extends Migration
     public function down()
     {
         //
-        Schema::table('user_categories', function (Blueprint $table) {
+        Schema::table('user_interest', function (Blueprint $table) {
             $table->dropColumn('created_at');
             $table->dropColumn('removed_at');
             $table->dropColumn('updated_at');
         });
 
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('interest', function (Blueprint $table) {
             $table->dropColumn('created_at');
             $table->dropColumn('removed_at');
             $table->dropColumn('updated_at');

@@ -29,11 +29,7 @@ class UserSocialServices
         if($userSocial)
         {
             $user = $userSocial->user;
-            $user = User::with('user_socials')->with(array(
-                'categories' => function($query){
-                    $query->orderBy('category_name');
-                }
-            ))->findOrFail($user->id);
+            $user = $this->getUserObject($user->id);
             return $user;
         }
 
@@ -58,11 +54,7 @@ class UserSocialServices
         ]);
         $acc->user()->associate($user);
         $acc->save();
-        $user = User::with('user_socials')->with(array(
-            'categories' => function($query){
-                $query->orderBy('category_name');
-            }
-        ))->findOrFail($user->id);
+        $user = $this->getUserObject($user->id);
         return $user;
     }
 
@@ -81,9 +73,13 @@ class UserSocialServices
         $user->first_name = Input::get('first_name')==null?$user->first_name:Input::get('first_name');
         $user->last_name = Input::get('last_name')==null?$user->last_name:Input::get('last_name');
         $user->password = Input::get('password')==null?$user->password:Hash::make(Input::get('password'));
-        if(Input::get('categories') !== null)
+        if(Input::get('interest') !== null)
         {
-            $user->categories()->sync(Input::get('categories'));
+            $user->interest()->sync(Input::get('interest'));
+        }
+        if(Input::get('profession') !== null)
+        {
+            $user->profession()->sync(Input::get('profession'));
         }
 
         $user->save();
@@ -121,11 +117,7 @@ class UserSocialServices
         ]);
         $acc->user()->associate($user);
         $acc->save();
-        $user = User::with('user_socials')->with(array(
-            'categories' => function($query){
-                $query->orderBy('category_name');
-            }
-        ))->findOrFail($user->id);
+        $user = $this->getUserObject($user->id);
         return response()->json(['message'=>__('response_message.status_success'), 'user'=>$user]);
 
     }

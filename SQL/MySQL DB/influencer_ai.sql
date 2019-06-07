@@ -84,9 +84,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`categories`
+-- Table `mydb`.`interest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`categories` (
+CREATE TABLE IF NOT EXISTS `mydb`.`interest` (
   `id` INT NOT NULL,
   `tag_name` VARCHAR(45) NULL,
   `description` VARCHAR(45) NULL,
@@ -97,9 +97,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`account_categories`
+-- Table `mydb`.`account_interest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`account_categories` (
+CREATE TABLE IF NOT EXISTS `mydb`.`account_interest` (
   `tags_id` INT NOT NULL,
   `social_account_id` INT NOT NULL,
   PRIMARY KEY (`tags_id`, `social_account_id`),
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`account_categories` (
   INDEX `fk_account_tags_social_account1_idx` (`social_account_id` ASC) VISIBLE,
   CONSTRAINT `fk_tags_has_account_tags1`
     FOREIGN KEY (`tags_id`)
-    REFERENCES `mydb`.`categories` (`id`)
+    REFERENCES `mydb`.`interest` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_account_tags_social_account1`
@@ -244,9 +244,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`categories_campaigns`
+-- Table `mydb`.`interest_campaigns`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`categories_campaigns` (
+CREATE TABLE IF NOT EXISTS `mydb`.`interest_campaigns` (
   `tags_id` INT NOT NULL,
   `campaigns_id` INT NOT NULL,
   `created_at` DATETIME NULL,
@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`categories_campaigns` (
   INDEX `fk_tags_has_campaigns_tags1_idx` (`tags_id` ASC) VISIBLE,
   CONSTRAINT `fk_tags_has_campaigns_tags1`
     FOREIGN KEY (`tags_id`)
-    REFERENCES `mydb`.`categories` (`id`)
+    REFERENCES `mydb`.`interest` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_tags_has_campaigns_campaigns1`

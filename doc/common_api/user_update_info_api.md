@@ -34,7 +34,7 @@ description|description|-|string|-|false
 user_type|user type|-|string|1 (influencer) or 2 (marketer)|false  
 username|username|-|string|-|false
 avatar|avatar user|-|string|-|false
-categories[]|categories of user|-|array|-|false
+interest[]|interest of user|-|array|-|false
 first_name|first name|-|string|-|false
 last_name|last name|-|string|-|false
 
@@ -57,10 +57,10 @@ last_name|last name|-|string|-|false
         - description: 'nothing is impossible',
         - avatar: 'https://twitter.com/Cuong_dep_trai8962580.png',
         - username: 'thangdeptrai'
-        - categories[]: '1'
-        - categories[]: '2'
+        - interest[]: '1'
+        - interest[]: '2'
         - link: 'https://twitter.com/Cuong_dep_trai89625808'
-        - category: 'https://twitter.com/Cuong_dep_trai89625808'
+        - interest: 'https://twitter.com/Cuong_dep_trai89625808'
         - user_type: '1'        
         - first_name: 'Cuong'
         - last_name: 'Nguyen'

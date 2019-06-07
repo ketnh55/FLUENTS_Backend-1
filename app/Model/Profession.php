@@ -12,17 +12,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 use Illuminate\Notifications\Notifiable;
 
-class Category extends Model
+class Profession extends Model
 {
     use SoftDeletes;
     use Notifiable;
-    protected $table = 'categories';
-    protected $fillable = ['id', 'category_name','description'];
+    protected $table = 'profession';
+    protected $fillable = ['id', 'profession_name','description'];
     protected $hidden = [
         'created_at', 'updated_at', 'pivot', 'deleted_at'
     ];
     public function user()
     {
-        return $this->belongsToMany(User::class, 'user_categories');
+        return $this->belongsToMany(User::class, 'user_profession');
     }
 }

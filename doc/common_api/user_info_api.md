@@ -110,20 +110,20 @@ name  | description| format | type | range | required
                     "username": "kết"
                 }
             ],
-            "categories": [
+            "interest": [
                 {
                     "id": 1,
-                    "category_name": "sport",
+                    "interest_name": "sport",
                     "description": "sportify"
                 },
                 {
                     "id": 2,
-                    "category_name": "drinking",
+                    "interest_name": "drinking",
                     "description": "cocacola"
                 },
                 {
                     "id": 3,
-                    "category_name": "music",
+                    "interest_name": "music",
                     "description": "music"
                 }
             ]

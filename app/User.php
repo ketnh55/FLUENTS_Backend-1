@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Model\Category;
+use App\Model\Interest;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -48,8 +48,13 @@ class User extends Authenticatable
         return $this->hasMany('App\Model\UserSocial');
     }
 
-    public function categories()
+    public function interest()
     {
-        return $this->belongsToMany('App\Model\Category', 'user_categories', 'user_id', 'tags_id');
+        return $this->belongsToMany('App\Model\Interest', 'user_interest', 'user_id', 'interest_id');
+    }
+
+    public function profession()
+    {
+        return $this->belongsToMany('App\Model\Profession', 'user_profession', 'user_id', 'profession_id');
     }
 }

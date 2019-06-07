@@ -81,7 +81,7 @@ password|password|-|string|> 8 character|true
             "user_type": null,
             "require_update_info": "true",
             "user_socials": [],
-            "categories": []
+            "interest": []
         }
     }
     ```
