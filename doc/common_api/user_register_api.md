@@ -156,6 +156,23 @@ secret_token|secret token of twitter|-|string|-|false
                     "description": "music"
                 }
             ]
+            "profession": [
+                {
+                    "id": 1,
+                    "profession_name": "sport",
+                    "description": "sportify"
+                },
+                {
+                    "id": 2,
+                    "profession_name": "drinking",
+                    "description": "cocacola"
+                },
+                {
+                    "id": 3,
+                    "profession_name": "music",
+                    "description": "music"
+                }
+            ]
         }
     }
     ```

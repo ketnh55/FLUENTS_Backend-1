@@ -6,7 +6,7 @@
 | creator   | ket2.nguyen.huu@gmail.com |
 | created   | 2019-03-24 |
 | updater   | 
-| updated   |  |
+| updated   | 2019-06-07 |
 
 ## 1. Overview 
 
@@ -35,6 +35,7 @@ user_type|user type|-|string|1 (influencer) or 2 (marketer)|false
 username|username|-|string|-|false
 avatar|avatar user|-|string|-|false
 interest[]|interest of user|-|array|-|false
+profession[]|interest of user|-|array|-|false
 first_name|first name|-|string|-|false
 last_name|last name|-|string|-|false
 
@@ -59,6 +60,8 @@ last_name|last name|-|string|-|false
         - username: 'thangdeptrai'
         - interest[]: '1'
         - interest[]: '2'
+        - profession[]: '1'
+        - profession[]: '2'
         - link: 'https://twitter.com/Cuong_dep_trai89625808'
         - interest: 'https://twitter.com/Cuong_dep_trai89625808'
         - user_type: '1'        
