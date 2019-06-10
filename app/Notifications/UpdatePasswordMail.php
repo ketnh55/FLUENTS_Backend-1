@@ -14,7 +14,6 @@ class UpdatePasswordMail extends Notification implements ShouldQueue
     use Queueable;
     protected $token;
     protected $subject;
-    protected $user;
 
     private $BASE_URL = 'https://fluents.app/user/resetpwd/';
     /**
@@ -23,12 +22,11 @@ class UpdatePasswordMail extends Notification implements ShouldQueue
      * @param $subject
      * @param User $user
      */
-    public function __construct($token, User $user)
+    public function __construct($token)
     {
         //
         $this->token = $token;
         $this->subject = __('mail_message.update_password_title');
-        $this->user = $user;
     }
 
     /**
@@ -53,7 +51,7 @@ class UpdatePasswordMail extends Notification implements ShouldQueue
         $link = $this->BASE_URL.$this->token;
         return (new MailMessage)
                 ->subject(Lang::getFromJson($this->subject))
-                ->greeting('Hi '.$this->user->username)
+                ->greeting('Hi '.$notifiable->username)
                 ->from('contact@fluents.app', 'FLUENTS')
                 ->line(Lang::getFromJson('The password for your FLUENTS account was recently updated. If you made this change, you don\'t need to do anything else. '))
                 ->line(Lang::getFromJson('If you didn\'t make this change, click the link below to reset your password.'))

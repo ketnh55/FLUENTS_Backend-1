@@ -9,12 +9,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Lang;
 
-class ResetPassword extends Notification implements ShouldQueue
+class ResetPasswordMail extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $token;
     protected $subject;
-    protected $user;
 
     private $BASE_URL = 'https://fluents.app/user/resetpwd/';
     private $CONTACT_EMAIL = 'contact@fluents.app';
@@ -24,12 +23,11 @@ class ResetPassword extends Notification implements ShouldQueue
      * @param $subject
      * @param User $user
      */
-    public function __construct($token, User $user)
+    public function __construct($token)
     {
         //
         $this->token = $token;
         $this->subject = __('mail_message.reset_password_mail_title');
-        $this->user = $user;
     }
 
     /**
@@ -54,7 +52,7 @@ class ResetPassword extends Notification implements ShouldQueue
         $link = $this->BASE_URL.$this->token;
         return (new MailMessage)
                 ->subject(Lang::getFromJson($this->subject))
-                ->greeting('Hi '.$this->user->username)
+                ->greeting('Hi '.$notifiable->username)
                 ->from('contact@fluents.app', 'FLUENTS')
                 ->line(Lang::getFromJson('We received a request to reset your FLUENTS password.'))
                 ->action(Lang::getFromJson('Reset Password'), $link)

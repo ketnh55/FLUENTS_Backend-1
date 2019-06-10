@@ -6,5 +6,6 @@ return [
     'update_email_title' => 'Update email',
     'update_social_account_title' => 'Update social account',
     'update_password_title' => 'Update password',
-    'close_fluent_account_title' => 'Close FLUENTS account'
+    'close_fluent_account_title' => 'Close FLUENTS account',
+    'update_profile_title' => 'Update profile'
 ];

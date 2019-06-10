@@ -15,7 +15,6 @@ class CloseFluentsAccMail extends Notification implements ShouldQueue
 
     protected $token;
     protected $subject;
-    protected $user;
 
     private $BASE_URL = 'https://fluents.app/user/close/';
     /**
@@ -24,12 +23,11 @@ class CloseFluentsAccMail extends Notification implements ShouldQueue
      * @param $subject
      * @param User $user
      */
-    public function __construct($token, User $user)
+    public function __construct($token)
     {
         //
         $this->token = $token;
         $this->subject = __('mail_message.close_fluent_account_title');
-        $this->user = $user;
     }
 
     /**
@@ -55,7 +53,7 @@ class CloseFluentsAccMail extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject(Lang::getFromJson($this->subject))
             ->from('contact@fluents.app', 'FLUENTS')
-            ->greeting('Hi ' .$this->user->username)
+            ->greeting('Hi ' .$notifiable->username)
             ->line(Lang::getFromJson('You recently requested to close your FLUENTS account.'))
             ->line(Lang::getFromJson('If you didn’t make this request, you don\'t need to do anything else. Your account will not be closed.'))
             ->line(Lang::getFromJson('If you made this request, click the link below to close the account.'))

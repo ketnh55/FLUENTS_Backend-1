@@ -51,8 +51,6 @@ class SnsController extends Controller
         {
             return response()->json(['error' => __('validation.user_not_active')], 412);
         }
-
-        //link account to sns
         $this->socialAccountServices->linkToSns($user);
 
         //send mail to user
@@ -64,7 +62,7 @@ class SnsController extends Controller
         {
             return response()->json(['error' =>__('validation.cannot_crawl_data')], 500);
         }
-
+        
         $user = $this->getUserObject($user->id);
         return response()->json(['message'=>__('response_message.status_success'), 'user'=>$user]);
     }
@@ -83,7 +81,7 @@ class SnsController extends Controller
             return response()->json($validator->errors());
         }
         $user = JWTAuth::toUser($request->token);
-        $user->notify(new UpdateSocialAccountsMail($user));
+        $user->notify(new UpdateSocialAccountsMail());
         $ret = $this->socialAccountServices->deleteSNSAcc($user);
         return $ret;
 

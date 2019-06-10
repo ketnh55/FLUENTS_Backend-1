@@ -15,7 +15,6 @@ class UpdateSocialAccountsMail extends Notification implements ShouldQueue
     use Queueable;
 
     protected $subject;
-    protected $user;
 
     private $BASE_URL = 'https://fluents.app/profile';
     /**
@@ -23,11 +22,10 @@ class UpdateSocialAccountsMail extends Notification implements ShouldQueue
      * @param $subject
      * @param User $user
      */
-    public function __construct(User $user)
+    public function __construct()
     {
         //
         $this->subject = __('mail_message.update_social_account_title');
-        $this->user = $user;
     }
 
     /**
@@ -65,7 +63,7 @@ class UpdateSocialAccountsMail extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject(Lang::getFromJson($this->subject))
             ->from('contact@fluents.app', 'FLUENTS')
-            ->greeting('Hi ' . $this->user->username)
+            ->greeting('Hi ' . $notifiable->username)
             ->line(Lang::getFromJson('Your :sns_type account :social_name linked to your FLUENTS account was recently updated. If you made this change, you don\'t need to do anything else. ', ['sns_type' => $sns_type, 'social_name' => Input::get('username')]))
             ->line(Lang::getFromJson('If you didn\'t make this change, click the link below to update the change.'))
             ->action(Lang::getFromJson('Update social account'), $this->BASE_URL);

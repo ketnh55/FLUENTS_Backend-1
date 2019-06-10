@@ -3,33 +3,30 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Action;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\User;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 
-class ActiveNotificationMail extends Notification implements ShouldQueue
+class UpdateUserProfileMail extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $token;
     protected $subject;
+    protected $user;
 
-    private $BASE_URL = 'https://fluents.app/register/check/';
-    private $CONTACT_EMAIL = 'contact@fluents.app';
+    private $BASE_URL = 'https://fluents.app/profile';
     /**
-     * RegisterNotificationMail constructor.
-     * @param $token
+     * UpdateUserProfileMail constructor.
      * @param $subject
      * @param User $user
      */
-    public function __construct($token)
+    public function __construct()
     {
         //
-        $this->token = $token;
-        $this->subject = __('mail_message.active_mail_title');
+        $this->subject = __('mail_message.update_profile_title');
     }
 
     /**
@@ -51,16 +48,16 @@ class ActiveNotificationMail extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $link = $this->BASE_URL.$this->token;
+
         return (new MailMessage)
             ->subject(Lang::getFromJson($this->subject))
             ->from('contact@fluents.app', 'FLUENTS')
-            ->greeting('Hi ' .$notifiable->email)
-            ->line(Lang::getFromJson('We received a request to activate your FLUENTS account.'))
-            ->action(Lang::getFromJson('Activate'), $link)
-            ->line(Lang::getFromJson('This activate link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
-            ->line(Lang::getFromJson('If you ignore this message, your account will not be activated. If you didn\'t request this activation, let us know.'))
-            ->markdown('vendor.notifications.email', ['email' => $this->CONTACT_EMAIL]);
+            ->greeting('Hi ' . $notifiable->username)
+            ->line('A recent update was made to your FLUENTS profile. If you made this change, you don\'t need to do anything else.')
+            ->line('If you didn\'t make this update, click the link below to reverse the change.')
+            ->action(Lang::getFromJson('Update Profile link'), $this->BASE_URL)
+            ->line('This password reset link will expire in :count days.', ['count' => config('auth.passwords.users.expire')]);
+
     }
 
     /**

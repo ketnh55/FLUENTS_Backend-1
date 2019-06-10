@@ -5,9 +5,10 @@ namespace App\Http\Controllers\api;
 use App\Http\Services\UserSocialServices;
 use App\Http\Controllers\Controller;
 use App\Notifications\ActiveNotificationMail;
-use App\Notifications\ResetPassword;
+use App\Notifications\ResetPasswordMail;
 use App\Notifications\UpdateEmailMail;
 use App\Notifications\UpdatePasswordMail;
+use App\Notifications\UpdateUserProfileMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use JWTFactory;
@@ -144,14 +145,20 @@ class LoginAPIController extends Controller
             && ($request->get('email') != $user->email)
             &&  !Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'), '/user_update_info_api'))
         {
-            $user->notify(new UpdateEmailMail($token, $user));
+            $user->notify(new UpdateEmailMail($token));
         }
 
         if($request->get('password') != null
             && Hash::make($request->get('password') != $user->password)
             &&  !Str::contains(JWTAuth::parseToken()->getPayload()->get('iss'), '/user_update_info_api'))
         {
-            $user->notify(new UpdatePasswordMail($token, $user));
+            $user->notify(new UpdatePasswordMail($token));
+        }
+
+        if($request->get('date_of_birth') != null
+            && ($request->get('date_of_birth') != $user->date_of_birth))
+        {
+            $user->notify(new UpdateUserProfileMail());
         }
 
         $this->socialAccountServices->updateUserInfo($user);
@@ -189,7 +196,7 @@ class LoginAPIController extends Controller
         }
         //Send mail to active account
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
-        $user->notify(new ActiveNotificationMail($token, $user));
+        $user->notify(new ActiveNotificationMail($token));
 
         return response()->json(['status' => __('response_message.status_success')]);
     }
@@ -258,7 +265,7 @@ class LoginAPIController extends Controller
         //Send mail to user to reset password
         $token = JWTAuth::fromUser($user, ['exp' => Carbon::now()->addMinute(60)->timestamp]);
         //$link = route('home', ['token' => $token]);
-        $user->notify(new ResetPassword($token, $user));
+        $user->notify(new ResetPasswordMail($token));
         return response()->json(['message' => __('response_message.status_success')]);
     }
 
