@@ -40,18 +40,33 @@ class SnsController extends Controller
      */
     public function link_to_sns(UserRegisterRequest $request)
     {
-        $user = JWTAuth::toUser($request->token);
+
         $validated = $request->validated();
         if (!$validated) {
             return response()->json($validated->errors());
         }
-        $ret = $this->socialAccountServices->linkToSns($user);
+        //check if user deactivate
+        $user = JWTAuth::toUser($request->token);
+        if($user->is_active != 1)
+        {
+            return response()->json(['error' => __('validation.user_not_active')], 412);
+        }
+
+        //link account to sns
+        $this->socialAccountServices->linkToSns($user);
+
+        //send mail to user
+        $user->notify(new UpdateSocialAccountsMail($user));
+
+        //crawl sns data
         $crawlSns = $this->crawlSnsData();
         if($crawlSns !== 200)
         {
             return response()->json(['error' =>__('validation.cannot_crawl_data')], 500);
         }
-        return $ret;
+
+        $user = $this->getUserObject($user->id);
+        return response()->json(['message'=>__('response_message.status_success'), 'user'=>$user]);
     }
 
     /**

@@ -90,11 +90,7 @@ class UserSocialServices
     {
         $user = User::with('user_socials')->findOrFail($user->id);
 
-        //check if user deactivate
-        if($user->is_active != 1)
-        {
-            return response()->json(['error' => __('validation.user_not_active')], 412);
-        }
+
 
         //check if sns account was linked to another account
         $user_socials = UserSocial::where(['platform_id'=>Input::get('sns_account_id'), 'social_type'=>Input::get('social_type')]);
@@ -117,9 +113,6 @@ class UserSocialServices
         ]);
         $acc->user()->associate($user);
         $acc->save();
-        $user = $this->getUserObject($user->id);
-        return response()->json(['message'=>__('response_message.status_success'), 'user'=>$user]);
-
     }
 
     /**
