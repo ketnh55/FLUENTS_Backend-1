@@ -1,5 +1,9 @@
 # Backend api
 API change log
+- 2019-06-10    
+    - Add email when change user profile
+             
+------------------------------------------------------------------------------------------------------------
 - 2019-06-07    
     - Change all name related to category to interest (i.e api get category...)
     - Add api get list profession
