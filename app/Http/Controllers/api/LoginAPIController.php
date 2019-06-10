@@ -155,11 +155,11 @@ class LoginAPIController extends Controller
             $user->notify(new UpdatePasswordMail($token));
         }
 
-        if($request->get('date_of_birth') != null
-            && ($request->get('date_of_birth') != $user->date_of_birth))
+        if($this->checkModifyUserProfile($user, $request))
         {
             $user->notify(new UpdateUserProfileMail());
         }
+
 
         $this->socialAccountServices->updateUserInfo($user);
         return response()->json(['status' => __('response_message.status_success')]);
@@ -322,6 +322,72 @@ class LoginAPIController extends Controller
         return response()->json(['message' => __('validation.invalid_request')], 400);
 
     }
+
+    private function checkModifyUserProfile(User $user, Request $request)
+    {
+        $update_profile_mail = false;
+        if($request->get('date_of_birth') != null
+            && ($request->get('date_of_birth') != $user->date_of_birth))
+        {
+            $update_profile_mail = true;
+        }
+
+        if($request->get('gender') != null
+            && ($request->get('gender') != $user->gender))
+        {
+            $update_profile_mail = true;
+        }
+
+        if($request->get('country') != null
+            && ($request->get('country') != $user->country))
+        {
+            $update_profile_mail = true;
+        }
+
+        if($request->get('location') != null
+            && ($request->get('location') != $user->location))
+        {
+            $update_profile_mail = true;
+        }
+
+        if($request->get('description') != null
+            && ($request->get('description') != $user->description))
+        {
+            $update_profile_mail = true;
+        }
+
+        if($request->get('username') != null
+            && ($request->get('username') != $user->username))
+        {
+            $update_profile_mail = true;
+        }
+
+        if($request->get('avatar') != null
+            && ($request->get('avatar') != $user->avatar))
+        {
+            $update_profile_mail = true;
+        }
+
+        if($request->get('first_name') != null
+            && ($request->get('first_name') != $user->first_name))
+        {
+            $update_profile_mail = true;
+        }
+
+        if($request->get('last_name') != null
+            && ($request->get('last_name') != $user->last_name))
+        {
+            $update_profile_mail = true;
+        }
+
+        if($request->get('user_type') != null
+            && ($request->get('user_type') != $user->user_type))
+        {
+            $update_profile_mail = true;
+        }
+        return $update_profile_mail;
+    }
+
 
 
 }

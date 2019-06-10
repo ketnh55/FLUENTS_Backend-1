@@ -56,7 +56,7 @@ class UpdateUserProfileMail extends Notification implements ShouldQueue
             ->line('A recent update was made to your FLUENTS profile. If you made this change, you don\'t need to do anything else.')
             ->line('If you didn\'t make this update, click the link below to reverse the change.')
             ->action(Lang::getFromJson('Update Profile link'), $this->BASE_URL)
-            ->line('This password reset link will expire in :count days.', ['count' => config('auth.passwords.users.expire')]);
+            ->line(Lang::getFromJson('This password reset link will expire in :count days.', ['count' => config('auth.passwords.users.expire')]));
 
     }
 
