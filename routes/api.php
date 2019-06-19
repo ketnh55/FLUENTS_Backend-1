@@ -35,4 +35,6 @@ Route::prefix('v1')->group(function(){
     Route::post('/reset_password_api', 'api\LoginAPIController@reset_password')->middleware('jwt.auth');
 
     Route::post('/images/event/{filename}', 'api\CommonController@uploadImage')->middleware('jwt.auth');
+
+    Route::post('/search_by_user_id_api', 'api\CommonController@getSpecificUserInfo')->middleware('jwt.auth');
 });

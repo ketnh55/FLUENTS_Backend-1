@@ -14,6 +14,7 @@ use App\Model\Interest;
 use App\Model\Profession;
 use App\Model\SNSInfo;
 use App\Notifications\CloseFluentsAccMail;
+use http\Env\Response;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -123,5 +124,18 @@ class CommonController extends  Controller
         $url = Storage::disk('gcs')->url($path);
         $filename = basename($url);
         return response(Lang::getfromJson(__('response_message.upload_image_response'), ['path' => $url, 'filename' => $filename]), 200, ['Content-type' =>'application/json']);
+    }
+
+    public function getSpecificUserInfo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|numeric'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $user = $this->getUserObject($request->get('user_id'));
+        return response()->json(['user' => $user]);
+
     }
 }

@@ -29,7 +29,7 @@ class UserSocialServices
         if($userSocial)
         {
             $user = $userSocial->user;
-            $user = $this->getUserObject($user->id);
+            //$user = $this->getUserObject($user->id);
             return $user;
         }
 
@@ -54,7 +54,7 @@ class UserSocialServices
         ]);
         $acc->user()->associate($user);
         $acc->save();
-        $user = $this->getUserObject($user->id);
+        //$user = $this->getUserObject($user->id);
         return $user;
     }
 
